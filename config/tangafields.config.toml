@@ -1,0 +1,55 @@
+# Commond fields
+[tf-0]
+    f_name="DNI"
+    f_data=0
+    f_type="uint32"
+
+[tf-1]
+    f_name="Fecha de nacimiento"
+    f_data="2001-12-20"
+    f_type="string"
+
+[tf-2]
+    f_name="Edad"
+    f_data=0
+    f_type="uint8"
+
+[tf-3]
+    f_name="Nombres"
+    f_data="Pepito"
+    f_type="string"
+
+[tf-4]
+    f_name="Apellidos"
+    f_data="Pepito"
+    f_type="string"
+
+[tf-5]
+    f_name="Email"
+    f_data="pepito@hotmail.com"
+    f_type="string"
+
+[tf-6]
+    f_name="mobilephone"
+    f_data="pepito@hotmail.com"
+    f_type="string"
+
+[tf-7]
+    f_name="Facebook"
+    f_data=""
+    f_type="string"
+
+[tf-8]
+    f_name="Twitter"
+    f_data=""
+    f_type="string"
+
+[tf-9]
+    f_name="Instagram"
+    f_data=""
+    f_type="string"
+
+[tf-10]
+    f_name="TikTok"
+    f_data=""
+    f_type="string"
