@@ -1,2 +1,3 @@
-build/*
-_db/*
+build
+_db
+.vscode
