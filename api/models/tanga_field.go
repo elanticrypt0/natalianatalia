@@ -1,8 +1,8 @@
 package models
 
 import (
-	"github.com/elanticrypt0/go4it"
-	"github.com/elanticrypt0/natalianatalia/pkg/webcore"
+	"github.com/k23dev/go4it"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"gorm.io/gorm"
 )
 
@@ -10,7 +10,6 @@ type TangaField struct {
 	gorm.Model
 	Name      string `json:"f_name"`
 	Data      string `json:"f_data"`
-	Type      string `json:"f_type"`
 	TangaUUID string
 	Tanga     Tanga `gorm:"foreignKey:TangaUUID;references:UUID"`
 }
@@ -52,7 +51,7 @@ func (m *TangaField) LoadCommodFields(gas *webcore.GasonlineApp) *[]TangaField {
 	fields := &[]TangaField{}
 	if gas.NNConfig.Tanga_fields_file != "" {
 		fields_file := gas.NNConfig.Tanga_fields_file + ".toml"
-		go4it.ReadOrParseToml(fields_file, &fields)
+		go4it.ReadAndParseToml(fields_file, &fields)
 	}
 	return fields
 

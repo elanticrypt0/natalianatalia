@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/elanticrypt0/natalianatalia/pkg/webcore"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"gorm.io/gorm"
 )
 

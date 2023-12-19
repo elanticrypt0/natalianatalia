@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/elanticrypt0/natalianatalia/api/features"
-	"github.com/elanticrypt0/natalianatalia/pkg/webcore"
 	"github.com/gofiber/fiber/v2"
+	"github.com/k23dev/natalianatalia/api/features"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 )
 
 func categoriesRoutes(gas *webcore.GasonlineApp, api fiber.Router) {

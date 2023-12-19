@@ -3,9 +3,9 @@ package webcore_features
 import (
 	"log"
 
-	"github.com/elanticrypt0/go4it"
-	"github.com/elanticrypt0/natalianatalia/api/models"
-	"github.com/elanticrypt0/natalianatalia/pkg/webcore"
+	"github.com/k23dev/go4it"
+	"github.com/k23dev/natalianatalia/api/models"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"gorm.io/gorm"
 )
 
@@ -26,7 +26,7 @@ func SeedTable(gas *webcore.GasonlineApp, table string) {
 
 func seedCategories(db *gorm.DB) {
 	cat_list := []models.Category{}
-	go4it.ReadOrParseJson("./seeds/categories.json", &cat_list)
+	go4it.ReadAndParseJson("./seeds/categories.json", &cat_list)
 	db.Save(&cat_list)
 	log.Println("Categories seeded")
 }

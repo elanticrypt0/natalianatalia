@@ -3,9 +3,9 @@ package features
 import (
 	"strconv"
 
-	"github.com/elanticrypt0/natalianatalia/api/models"
-	"github.com/elanticrypt0/natalianatalia/pkg/webcore"
 	"github.com/gofiber/fiber/v2"
+	"github.com/k23dev/natalianatalia/api/models"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 )
 
 func FindOneCategory(c *fiber.Ctx, gas *webcore.GasonlineApp) error {

@@ -1,6 +1,6 @@
 package nnconfig
 
-import "github.com/elanticrypt0/go4it"
+import "github.com/k23dev/go4it"
 
 type NNConfig struct {
 	Tanga_fields_file string `json:"tanga_fields_file"`
@@ -11,6 +11,6 @@ type NNConfig struct {
 func NewNNConfig() *NNConfig {
 	nnconfig := &NNConfig{}
 	// load config
-	go4it.ReadOrParseToml("./config/nn.config.toml", &nnconfig)
+	go4it.ReadAndParseToml("./config/nn.config.toml", &nnconfig)
 	return nnconfig
 }

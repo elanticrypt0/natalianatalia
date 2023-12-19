@@ -1,3 +1,6 @@
 build
 _db
 .vscode
+config/appconfig.toml
+wui/dist
+wui/node_modules/*

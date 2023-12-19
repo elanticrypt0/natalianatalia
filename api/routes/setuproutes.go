@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/elanticrypt0/natalianatalia/pkg/webcore"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 )
 
 func SetupFeaturesRoutes(gas *webcore.GasonlineApp) {
