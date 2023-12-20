@@ -7,7 +7,6 @@ import (
 
 func ApiSetup(tapp *webcore.TangoApp) {
 
-	tapp.App.DB.Primary.AutoMigrate()
 	// features routes
 	routes.SetupApiRoutes(tapp)
 
