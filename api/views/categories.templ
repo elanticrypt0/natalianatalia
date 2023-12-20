@@ -1,29 +1,43 @@
 package views
 
-import "github.com/k23dev/tango/api/models"
+import (
+    "github.com/k23dev/tango/api/views/layouts"
+    "github.com/k23dev/tango/api/models"
+)
+    
 
 templ CategoriesShowList(categories []models.Category){
-    <h1>Lista de categorías</h1>
-    <ol>
-        for _,cat:=range(categories){
-            <li><a href="/">{cat.Name}</a></li>
-        }
-    </ol>
+    @layouts.Default("Categorias"){
+        <h1>Lista de categorías</h1>
+        <ol>
+            for _,cat:=range(categories){
+                <li><a href="/">{cat.Name}</a></li>
+            }
+        </ol>
+    }
 
 }
 
 templ CategoriesShowOne(cat models.Category){
-    <h1>Categoría {cat.Name}</h1>
+    @layouts.Default("Categorias"){
+        <h1>Categoría {cat.Name}</h1>
+    }
 }
 
 templ CategoriesFormCreate(){
-    <h1>Nueva categoría</h1>
+    @layouts.Default("Categorias"){
+        <h1>Nueva categoría</h1>
+    }
 }
 
 templ CategoriesFormUpdate(cat *models.Category){
-    <h1>Editar categoría</h1>
+    @layouts.Default("Categorias"){
+        <h1>Editar categoría</h1>
+    }
 }
 
 templ CategoriesDelete(cat *models.Category){
-    <h1>Borrar categoría</h1>
+    @layouts.Default("Categorias"){
+        <h1>Borrar categoría</h1>
+    }
 }

@@ -4,14 +4,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-const publicDir = "./public"
+const publicPath = "./public"
+const assetsPath = publicPath + "/assets"
 
 func SetupStaticRoutes(server *echo.Echo) {
 
-	server.Static("/", publicDir)
-	server.Static("/", publicDir+"/assets")
-	server.Static("/", publicDir+"/js")
-	server.Static("/", publicDir+"/css")
-	server.Static("/", publicDir+"/images")
+	server.Static("/public", publicPath)
+	server.Static("/assets", assetsPath)
+	server.Static("/assets/js", assetsPath+"/js")
+	server.Static("/assets/css", assetsPath+"/css")
+	server.Static("/images", publicPath+"/images")
 
 }
