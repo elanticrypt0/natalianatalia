@@ -1,29 +1,39 @@
 package routes
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"github.com/k23dev/tango/api/features"
 	"github.com/k23dev/tango/pkg/webcore"
+	"github.com/labstack/echo/v4"
 )
 
-func categoriesRoutes(tapp *webcore.TangoApp, api fiber.Router) {
-	categories := api.Group("/categories")
-	categories.Get("/", func(c *fiber.Ctx) error {
+func categoriesRoutes(tapp *webcore.TangoApp, rootPath *echo.Group) {
+	categories := rootPath.Group("/categories")
+
+	categories.GET("/", func(c echo.Context) error {
 		return features.FindAllCategories(c, tapp)
 	})
-	categories.Get("/:id", func(c *fiber.Ctx) error {
+
+	categories.GET("/:id", func(c echo.Context) error {
 		return features.FindOneCategory(c, tapp)
 	})
 
-	categories.Post("/", func(c *fiber.Ctx) error {
-		return features.CreateCategory(c, tapp)
+	categories.GET("/new", func(c echo.Context) error {
+		return features.ShowFormCategory(c, tapp, true)
 	})
 
-	categories.Put("/:id", func(c *fiber.Ctx) error {
-		return features.UpdateCategory(c, tapp)
+	categories.GET("/edit/:id", func(c echo.Context) error {
+		return features.ShowFormCategory(c, tapp, false)
 	})
 
-	categories.Delete("/:id", func(c *fiber.Ctx) error {
+	// categories.POST("/", func(c echo.Context) error {
+	// 	return features.CreateCategory(c, tapp)
+	// })
+
+	// categories.PUT("/:id", func(c echo.Context) error {
+	// 	return features.UpdateCategory(c, tapp)
+	// })
+
+	categories.DELETE("/:id", func(c echo.Context) error {
 		return features.DeleteCategory(c, tapp)
 	})
 }

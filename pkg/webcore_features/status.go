@@ -1,7 +1,11 @@
 package webcore_features
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"net/http"
 
-func Status(c *fiber.Ctx) error {
-	return c.JSON("OK")
+	"github.com/labstack/echo/v4"
+)
+
+func Status(c echo.Context) error {
+	return c.JSON(http.StatusOK, "OK")
 }

@@ -2,26 +2,25 @@ package webcore_features
 
 import (
 	"log"
+	"net/http"
 
-	"github.com/gofiber/fiber/v2"
 	"github.com/k23dev/go4it"
 	"github.com/k23dev/tango/api/models"
-	"github.com/k23dev/tango/pkg/webcore"
+	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 const seedDir = "./seeds/"
 
-func Seed(c *fiber.Ctx, gas *webcore.TangoApp) error {
-	seedCategories(gas)
-	return c.JSON("OK")
+func Seed(c echo.Context, db *gorm.DB) error {
+	seedCategories(db)
+	return c.JSON(http.StatusOK, "OK")
 }
 
-func seedCategories(gas *webcore.TangoApp) {
+func seedCategories(db *gorm.DB) {
 	cat_list := []models.Category{}
-	go4it.ReadAndParseJson(seedDir+"categories", &cat_list)
-	// for _, category := range cat_list {
-	// 	models.CreateCategory(gas, category.Name)
-	// }
-	gas.App.DB.Primary.Save(&cat_list)
+	go4it.ReadAndParseJson(seedDir+"categories.json", &cat_list)
+
+	db.Save(&cat_list)
 	log.Println("Categories seeded")
 }

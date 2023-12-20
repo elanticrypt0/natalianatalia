@@ -2,15 +2,16 @@ package webcore_features
 
 import (
 	"fmt"
+	"net/http"
 
-	"github.com/gofiber/fiber/v2"
 	"github.com/k23dev/tango/api/models"
 	"github.com/k23dev/tango/pkg/webcore"
+	"github.com/labstack/echo/v4"
 )
 
-func Setup(c *fiber.Ctx, tapp *webcore.TangoApp) error {
+func Setup(c echo.Context, tapp *webcore.TangoApp) error {
 	automigrateModels(tapp)
-	return c.SendString("Setup enabled. Models Migrated.")
+	return c.String(http.StatusOK, "Setup enabled. Models Migrated.")
 }
 
 func SetupOnStartup(tapp *webcore.TangoApp) {

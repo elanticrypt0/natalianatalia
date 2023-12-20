@@ -1,17 +1,17 @@
 package webcore
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/labstack/echo/v4"
 )
 
 const publicDir = "./public"
 
-func SetupStaticRoutes(app *fiber.App) {
+func SetupStaticRoutes(server *echo.Echo) {
 
-	app.Static("/", publicDir)
-	app.Static("/", publicDir+"/assets")
-	app.Static("/", publicDir+"/js")
-	app.Static("/", publicDir+"/css")
-	app.Static("/", publicDir+"/images")
+	server.Static("/", publicDir)
+	server.Static("/", publicDir+"/assets")
+	server.Static("/", publicDir+"/js")
+	server.Static("/", publicDir+"/css")
+	server.Static("/", publicDir+"/images")
 
 }

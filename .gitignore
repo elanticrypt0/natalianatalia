@@ -1,4 +1,6 @@
 _db/*
+tmp
+vendor
 config/appconfig.toml
 *_templ.go
 

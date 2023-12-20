@@ -5,7 +5,8 @@ import (
 )
 
 func SetupApiRoutes(tapp *webcore.TangoApp) {
-	api := tapp.Fiber.Group("/api")
+	// rootPath := tapp.Server.Group("/api")
+	rootPath := tapp.Server.Group("")
 	// categories
-	categoriesRoutes(tapp, api)
+	categoriesRoutes(tapp, rootPath)
 }

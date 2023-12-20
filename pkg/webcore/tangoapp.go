@@ -3,13 +3,13 @@ package webcore
 import (
 	"fmt"
 
-	"github.com/gofiber/fiber/v2"
 	"github.com/k23dev/go4it"
+	"github.com/labstack/echo/v4"
 )
 
 type TangoApp struct {
-	App   *go4it.App
-	Fiber *fiber.App
+	App    *go4it.App
+	Server *echo.Echo
 }
 
 func (tapp *TangoApp) PrintAppInfo() {

@@ -1,21 +1,21 @@
 package webcore
 
 import (
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/labstack/echo/v4/middleware"
 )
 
-func MiddlewareSetup(gas *TangoApp) {
-	// CORS
-	gas.Fiber.Use(cors.New(cors.Config{
-		AllowOrigins: gas.App.Config.App_CORS_origins,
-		AllowHeaders: gas.App.Config.App_CORS_headers,
-	}))
+func MiddlewareSetup(tapp *TangoApp) {
+
+	// tapp.Server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	AllowOrigins: []string{tapp.App.Config.App_CORS_origins},
+	// 	AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	// }))
+
+	tapp.Server.Use(middleware.CORS())
 
 	//  Recover from error
-	gas.Fiber.Use(recover.New())
+	tapp.Server.Use(middleware.Recover())
 
-	// LoggerOnFile(gas.Fiber)
-	LogOn(gas.Fiber)
+	tapp.Server.Use(middleware.Logger())
 
 }
