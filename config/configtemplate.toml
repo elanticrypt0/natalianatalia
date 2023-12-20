@@ -1,6 +1,6 @@
 # APP
-app_name="GASonline"
-app_version="0.8"
+app_name="Tango"
+app_version="0.1"
 app_server_protocol="http"
 app_server_host="localhost"
 app_server_port=3001
