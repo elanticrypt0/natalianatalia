@@ -1,5 +1,6 @@
-_db
+_db/*
 config/appconfig.toml
-pkg/ws
+*_templ.go
 
 build
+
