@@ -48,7 +48,7 @@ func main() {
 	// static routes
 	webcore.SetupStaticRoutes(tapp.Fiber)
 
-	// go4it.OpenInBrowser("http://" + gas.GetAppUrl())
+	go4it.OpenInBrowser("http://" + tapp.GetAppUrl())
 
 	log.Fatal(tapp.Fiber.Listen(":" + tapp.GetPortAsStr()))
 
