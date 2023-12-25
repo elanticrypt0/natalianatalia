@@ -5,14 +5,12 @@ go 1.21.4
 require (
 	github.com/a-h/templ v0.2.476
 	github.com/k23dev/go4it v0.0.0-20231219030825-622be16c118e
-	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.11.3
 	gorm.io/gorm v1.25.5
 )
 
 require (
 	github.com/BurntSushi/toml v1.3.2 // indirect
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/glebarez/sqlite v1.10.0 // indirect
