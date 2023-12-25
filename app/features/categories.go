@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/k23dev/tango/api/models"
-	"github.com/k23dev/tango/api/views"
+	"github.com/k23dev/tango/app/models"
+	"github.com/k23dev/tango/app/views"
 	"github.com/k23dev/tango/pkg/webcore"
 	"github.com/k23dev/tango/pkg/webcore/utils"
 	"github.com/labstack/echo/v4"

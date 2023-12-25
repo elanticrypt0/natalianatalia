@@ -2,7 +2,7 @@ package utils
 
 import (
 	"github.com/a-h/templ"
-	"github.com/k23dev/tango/api/views"
+	"github.com/k23dev/tango/app/views"
 	"github.com/labstack/echo/v4"
 )
 

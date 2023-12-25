@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/k23dev/tango/api/routes"
+	"github.com/k23dev/tango/app/routes"
 	"github.com/k23dev/tango/pkg/webcore"
 )
 

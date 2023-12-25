@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/k23dev/go4it"
-	"github.com/k23dev/tango/api/models"
+	"github.com/k23dev/tango/app/models"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )

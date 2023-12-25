@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/k23dev/tango/api/features"
+	"github.com/k23dev/tango/app/features"
 	"github.com/k23dev/tango/pkg/webcore"
 	"github.com/labstack/echo/v4"
 )

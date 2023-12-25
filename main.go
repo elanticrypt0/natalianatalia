@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/k23dev/go4it"
-	"github.com/k23dev/tango/api/routes"
+	"github.com/k23dev/tango/app/routes"
 	"github.com/k23dev/tango/pkg/webcore"
 	"github.com/k23dev/tango/pkg/webcore_features"
 	"github.com/labstack/echo/v4"
