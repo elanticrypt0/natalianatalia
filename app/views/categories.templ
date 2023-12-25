@@ -12,7 +12,7 @@ templ CategoriesShowList(appTitle string,categories []models.Category){
         <h1>Lista de categorías</h1>
         <ol>
             for _,cat:=range(categories){
-                <li><a href="#cat" hx-get={ "/categories/"+cat.GetIDAsString(cat.ID)} hx-trigger="click">{cat.Name}</a></li>
+                <li><a href={templ.URL("#cat-"+cat.GetIDAsString(cat.ID))} hx-get={ "/categories/"+cat.GetIDAsString(cat.ID)} hx-trigger="click">{cat.Name}</a></li>
             }
         </ol>
     }
