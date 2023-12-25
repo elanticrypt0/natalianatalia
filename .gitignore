@@ -2,7 +2,6 @@ node_modules
 _db/*
 tmp
 vendor
-config/appconfig.toml
 *_templ.go
 
 build
