@@ -1,9 +1,8 @@
 BINARY_NAME=app
 BUILD_DIR=./build
+HTMLX_DIR=./public/assets/js
 
-all: build
-
-deps:
+go-install-deps:
 	go install github.com/cosmtrek/air@latest
 	go install github.com/a-h/templ/cmd/templ@latest
 	go mod tidy
@@ -44,3 +43,10 @@ test:
 clean:
 	go clean
 	rm -rf ${BUILD_DIR}
+
+htmlx-install:
+	wget https://unpkg.com/htmx.org/dist/htmx.min.js -P ${HTMLX_DIR}
+
+htmlx-update:
+	rm -rf ${HTMLX_DIR}/*
+	wget https://unpkg.com/htmx.org/dist/htmx.min.js -P ${HTMLX_DIR}
