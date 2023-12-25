@@ -25,17 +25,33 @@ los archivos publicos están dentro de la carpeta public y por defecto tienen va
 
 # Makefile
 
+## Instalar todas las depencias de tango
+
+Este comando instala las dependencias de go y tailwind
+
+    make tango-install
+
 ## Instalar dependencias de go
 
 Para instalar las dependecias de go y air para poder tener hotreload ejecutar
 
     make go-install-deps
 
+## Instalar dependencias de tailwind
+
+Para instalar las dependecias de go y air para poder tener hotreload ejecutar
+
+    make tailwind-install
+
 ## Run in dev mode
 
 Ejecutar
 
     make dev
+
+## Run tailwind in dev mode
+
+    make tailwind-dev
 
 ## Generar vistas
 

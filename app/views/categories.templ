@@ -7,8 +7,8 @@ import (
 
 var catIDStr string
 
-templ CategoriesShowList(categories []models.Category){
-    @layouts.Default("Categorias"){
+templ CategoriesShowList(appTitle string,categories []models.Category){
+    @layouts.Default(appTitle){
         <h1>Lista de categorías</h1>
         <ol>
             for _,cat:=range(categories){
@@ -19,14 +19,14 @@ templ CategoriesShowList(categories []models.Category){
 
 }
 
-templ CategoriesShowOne(cat models.Category){
-    @layouts.Default("Categorias"){
+templ CategoriesShowOne(appTitle string,cat models.Category){
+    @layouts.Default(appTitle){
         <h1>Categoría {cat.Name}</h1>
     }
 }
 
-templ CategoriesFormCreate(){
-    @layouts.Default("Categorias"){
+templ CategoriesFormCreate(appTitle string){
+    @layouts.Default(appTitle){
         <h1>Nueva categoría</h1>
 
         <form action="/categories" method="post">
@@ -36,8 +36,8 @@ templ CategoriesFormCreate(){
     }
 }
 
-templ CategoriesFormUpdate(cat *models.Category){
-    @layouts.Default("Categorias"){
+templ CategoriesFormUpdate(appTitle string,cat *models.Category){
+    @layouts.Default(appTitle){
         <form action="/categories" method="put">
             <input name="name" value={cat.Name}/>
             <input type="submit" value="Enviar"></input>
@@ -45,8 +45,8 @@ templ CategoriesFormUpdate(cat *models.Category){
     }
 }
 
-templ CategoriesDelete(cat *models.Category){
-    @layouts.Default("Categorias"){
+templ CategoriesDelete(appTitle string,cat *models.Category){
+    @layouts.Default(appTitle){
         <h1>Borrar categoría</h1>
     }
 }
