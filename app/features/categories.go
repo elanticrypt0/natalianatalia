@@ -17,7 +17,7 @@ func FindOneCategory(c echo.Context, tapp *webcore.TangoApp) error {
 	cat := models.NewCategory()
 	category := cat.FindOne(tapp.App.DB.Primary, id)
 	if category.ID != 0 {
-		return utils.Render(c, views.CategoriesShowOne(tapp.App.Config.App_name, *category))
+		return utils.Render(c, views.CategoriesShowOne(tapp.GetTitleAndVersion(), *category))
 	} else {
 		return utils.RenderNotFound(c)
 	}
@@ -26,18 +26,18 @@ func FindOneCategory(c echo.Context, tapp *webcore.TangoApp) error {
 func FindAllCategories(c echo.Context, tapp *webcore.TangoApp) error {
 	cat := models.NewCategory()
 	categories := cat.FindAll(tapp.App.DB.Primary)
-	return utils.Render(c, views.CategoriesShowList(tapp.App.Config.App_name, categories))
+	return utils.Render(c, views.CategoriesShowList(tapp.GetTitleAndVersion(), categories))
 }
 
 func ShowFormCategory(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	cat := models.NewCategory()
 
 	if is_new {
-		return utils.Render(c, views.CategoriesFormCreate(tapp.App.Config.App_name))
+		return utils.Render(c, views.CategoriesFormCreate(tapp.GetTitleAndVersion()))
 	} else {
 		id, _ := strconv.Atoi(c.Param("id"))
 		cat := cat.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(c, views.CategoriesFormUpdate(tapp.App.Config.App_name, cat))
+		return utils.Render(c, views.CategoriesFormUpdate(tapp.GetTitleAndVersion(), cat))
 	}
 }
 

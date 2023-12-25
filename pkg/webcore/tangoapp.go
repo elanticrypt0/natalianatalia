@@ -23,3 +23,7 @@ func (tapp *TangoApp) GetAppUrl() string {
 func (tapp *TangoApp) GetPortAsStr() string {
 	return fmt.Sprintf("%d", tapp.App.Config.App_server_port)
 }
+
+func (tapp *TangoApp) GetTitleAndVersion() string {
+	return tapp.App.Config.App_name + " (V." + tapp.App.Config.App_version + ")"
+}

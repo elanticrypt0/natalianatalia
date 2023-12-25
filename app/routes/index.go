@@ -10,6 +10,6 @@ import (
 func IndexRoutes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 
 	rootPath.GET("/", func(c echo.Context) error {
-		return utils.Render(c, views.Index(tapp.App.Config.App_name+" V."+tapp.App.Config.App_version))
+		return utils.Render(c, views.Index(tapp.GetTitleAndVersion()))
 	})
 }
