@@ -1,0 +1,49 @@
+package views
+
+import (
+    "github.com/k23dev/natalianatalia/app/views/layouts"
+    "github.com/k23dev/natalianatalia/app/models"
+)
+
+templ TangasShowList(appTitle string,tangas []models.Tanga){
+    @layouts.Default(appTitle){
+        <h1>Tangas</h1>
+        <ol>
+            for _,tan:=range(tangas){
+                <li><a href={templ.URL("#cat-"+tan.GetIDAsString())} hx-get={ "/Tangas/"+tan.GetIDAsString()} hx-trigger="click">{tan.Codename}</a></li>
+            }
+        </ol>
+        // @components.Table(Tangas)
+    }
+
+}
+
+templ TangasShowOne(appTitle string,tan models.Tanga){
+    <h1>Tanga > {tan.Codename}</h1>
+}
+
+templ TangasFormCreate(appTitle string){
+    @layouts.Default(appTitle){
+        <h1>Nueva Tanga</h1>
+
+        <form action="/tangas/" method="post">
+            <input name="codename" value=""/>
+            <input type="submit" value="Enviar"></input>
+        </form>
+    }
+}
+
+templ TangasFormUpdate(appTitle string,tan *models.Tanga){
+    @layouts.Default(appTitle){
+        <form action="/Tangas" method="put">
+            <input name="name" value={tan.Codename}/>
+            <input type="submit" value="Enviar"></input>
+        </form>
+    }
+}
+
+templ TangasDelete(appTitle string,tan *models.Tanga){
+    @layouts.Default(appTitle){
+        <h1>Borrar categoría</h1>
+    }
+}

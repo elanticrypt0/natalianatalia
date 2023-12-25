@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/k23dev/natalianatalia/app/routes"
+	"github.com/k23dev/natalianatalia/app"
+	"github.com/k23dev/natalianatalia/pkg/nn"
 	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"github.com/k23dev/natalianatalia/pkg/webcore_features"
 
@@ -14,8 +15,9 @@ func main() {
 	app_config := go4it.NewApp("./config/appconfig")
 
 	tapp := webcore.TangoApp{
-		App:    &app_config,
-		Server: echo.New(),
+		App:      &app_config,
+		Server:   echo.New(),
+		NNConfig: nn.NewNNConfig(),
 	}
 
 	// Database connections
@@ -28,19 +30,19 @@ func main() {
 	webcore.MiddlewareSetup(&tapp)
 
 	//  Routes
-
-	webcore_features.SetupRoutes(&tapp)
-
 	if tapp.App.Config.App_setup_enabled && tapp.App.Config.App_debug_mode {
-		routes.SetupApiRoutes(&tapp)
+		webcore_features.SetupRoutes(&tapp)
 	}
 
 	webcore.SetupStaticRoutes(tapp.Server)
+
+	app.AppSetup(&tapp)
 
 	// open app in default browser
 	go4it.OpenInBrowser("http://" + tapp.GetAppUrl())
 
 	// Start server
-	tapp.Server.Logger.Fatal(tapp.Server.Start(":" + tapp.GetPortAsStr()))
+	// tapp.Server.Logger.Fatal(tapp.Server.Start(":" + tapp.GetPortAsStr()))
+	tapp.Server.Start(":" + tapp.GetPortAsStr())
 
 }

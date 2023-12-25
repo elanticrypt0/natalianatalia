@@ -1,8 +1,9 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
-	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"gorm.io/gorm"
 )
 
@@ -12,33 +13,42 @@ type Tanga struct {
 	Codename string    `json:"codename"`
 }
 
+type TangaDTO struct {
+	Codename string `json:"codename" param:"codename" query:"codename" form:"codename"`
+}
+
 func NewTanga() *Tanga {
 	return &Tanga{}
 }
 
-func (m *Tanga) FindOne(gas *webcore.GasonlineApp, id int) *Tanga {
+func (m *Tanga) FindOne(db *gorm.DB, id int) *Tanga {
 	var this_model Tanga
-	gas.App.DB.Primary.First(&this_model, id)
+	db.First(&this_model, id)
 	return &this_model
 }
 
-func (m *Tanga) FindAll(gas *webcore.GasonlineApp) *[]Tanga {
+func (m *Tanga) FindAll(db *gorm.DB) *[]Tanga {
 	var this_model []Tanga
-	gas.App.DB.Primary.Order("created_at ASC").Find(&this_model)
+	db.Order("created_at ASC").Find(&this_model)
 	return &this_model
 }
 
-func (m *Tanga) Create(gas *webcore.GasonlineApp) *Tanga {
-	gas.App.DB.Primary.Create(&m)
+func (m *Tanga) Create(db *gorm.DB, codename string) *Tanga {
+	m.Codename = codename
+	db.Create(&m)
 	return m
 }
 
-func (m *Tanga) Update(gas *webcore.GasonlineApp) *Tanga {
-	gas.App.DB.Primary.Save(&m)
+func (m *Tanga) Update(db *gorm.DB, tanga *Tanga) *Tanga {
+	db.Save(&tanga)
 	return m
 }
 
-func (m *Tanga) Delete(gas *webcore.GasonlineApp, id int) *Tanga {
-	gas.App.DB.Primary.Delete(&m)
+func (m *Tanga) Delete(db *gorm.DB, id int) *Tanga {
+	db.Delete(&m)
 	return m
+}
+
+func (t *Tanga) GetIDAsString() string {
+	return fmt.Sprintf("%d", t.ID)
 }

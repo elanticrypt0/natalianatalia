@@ -1,0 +1,47 @@
+package models
+
+type $1 struct {
+	gorm.Model
+	Name string `json:"name" param:"name" query:"name" form:"name"`
+}
+
+
+type $1DTO struct {
+	Name string `json:"name" param:"name" query:"name" form:"name"`
+}
+
+func New$1() *$1 {
+	return &$1{}
+}
+
+func ($2 *$1) FindOne(db *gorm.DB, id int) *$1 {
+	var this_model $1
+	db.First(&this_model, id)
+	return &this_model
+}
+
+func ($2 *$1) FindAll(db *gorm.DB) *[]$1 {
+	var this_model []$1
+	db.Order("created_at ASC").Find(&this_model)
+	return &this_model
+}
+
+func ($2 *$1) Create(db *gorm.DB) *$1 {
+	db.Create(&$2)
+	return $2
+}
+
+func ($2 *$1) Update(db *gorm.DB) *$1 {
+	db.Save(&$2)
+	return $2
+}
+
+func ($2 *$1) Delete(db *gorm.DB, id int) *$1 {
+	db.Delete(&$2)
+	return $2
+}
+
+
+func ($2 *$1) GetIDAsString) string {
+	return fmt.Sprintf("%d", $2.ID)
+}

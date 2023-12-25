@@ -1,0 +1,66 @@
+package features
+
+import (
+	"net/http"
+	"strconv"
+
+	"github.com/k23dev/natalianatalia/app/models"
+	"github.com/k23dev/natalianatalia/app/views"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
+	"github.com/k23dev/natalianatalia/pkg/webcore/utils"
+
+	"github.com/labstack/echo/v4"
+)
+
+func FindOne$1(c echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	$4 := models.New$1()
+	$3:= $4.FindOne(tapp.App.DB.Primary, id)
+	if $3.ID != 0 {
+		return utils.Render(c, views.$2ShowOne(tapp.GetTitleAndVersion(), *$3))
+	} else {
+		return utils.RenderNotFound(c)
+	}
+}
+
+func FindAll$2(c echo.Context, tapp *webcore.TangoApp) error {
+	$4 := models.New$1()
+	$2 := $4.FindAll(tapp.App.DB.Primary)
+	return utils.Render(c, views.$2ShowList(tapp.GetTitleAndVersion(), $2))
+}
+
+func ShowForm$1(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
+	$4 := models.New$1()
+
+	if is_new {
+		return utils.Render(c, views.$2FormCreate(tapp.GetTitleAndVersion()))
+	} else {
+		id, _ := strconv.Atoi(c.Param("id"))
+		$4 := $4.FindOne(tapp.App.DB.Primary, id)
+		return utils.Render(c, views.$2FormUpdate(tapp.GetTitleAndVersion(), $4))
+	}
+}
+
+func Create$1(c echo.Context, tapp *webcore.TangoApp) error {
+	$4 := models.New$1()
+	c.Bind(&$4)
+	$3:= $4.Create(tapp.App.DB.Primary, $4.Name)
+	return c.JSON(http.StatusOK, $3)
+}
+
+func Update$1(c echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	$4 := models.New$1()
+	$3:= $4.FindOne(tapp.App.DB.Primary, id)
+	c.Bind(&$4)
+	$3 = $4.Update(tapp.App.DB.Primary, *$3)
+	return c.JSON(http.StatusOK, $3)
+}
+
+func Delete$1(c echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	$4 := models.New$1()
+	$3:= $4.Delete(tapp.App.DB.Primary, id)
+	return c.JSON(http.StatusOK, $3)
+}

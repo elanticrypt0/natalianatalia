@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/k23dev/go4it"
 	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"gorm.io/gorm"
@@ -18,41 +20,45 @@ func NewTangaField() *TangaField {
 	return &TangaField{}
 }
 
-func (m *TangaField) FindOne(gas *webcore.GasonlineApp, id int) *TangaField {
+func (m *TangaField) FindOne(db *gorm.DB, id int) *TangaField {
 	var this_model TangaField
-	gas.App.DB.Primary.First(&this_model, id)
+	db.First(&this_model, id)
 	return &this_model
 }
 
-func (m *TangaField) FindAll(gas *webcore.GasonlineApp) *[]TangaField {
+func (m *TangaField) FindAll(db *gorm.DB) *[]TangaField {
 	var this_model []TangaField
-	gas.App.DB.Primary.Order("created_at ASC").Find(&this_model)
+	db.Order("created_at ASC").Find(&this_model)
 	return &this_model
 }
 
-func (m *TangaField) Create(gas *webcore.GasonlineApp) *TangaField {
-	gas.App.DB.Primary.Create(&m)
+func (m *TangaField) Create(db *gorm.DB) *TangaField {
+	db.Create(&m)
 	return m
 }
 
-func (m *TangaField) Update(gas *webcore.GasonlineApp) *TangaField {
-	gas.App.DB.Primary.Save(&m)
+func (m *TangaField) Update(db *gorm.DB) *TangaField {
+	db.Save(&m)
 	return m
 }
 
-func (m *TangaField) Delete(gas *webcore.GasonlineApp, id int) *TangaField {
-	gas.App.DB.Primary.Delete(&m)
+func (m *TangaField) Delete(db *gorm.DB, id int) *TangaField {
+	db.Delete(&m)
 	return m
 }
 
 // Load commond tanga fields
-func (m *TangaField) LoadCommodFields(gas *webcore.GasonlineApp) *[]TangaField {
+func (m *TangaField) LoadCommodFields(tapp *webcore.TangoApp) *[]TangaField {
 
 	fields := &[]TangaField{}
-	if gas.NNConfig.Tanga_fields_file != "" {
-		fields_file := gas.NNConfig.Tanga_fields_file + ".toml"
+	if tapp.NNConfig.Tanga_fields_file != "" {
+		fields_file := tapp.NNConfig.Tanga_fields_file + ".toml"
 		go4it.ReadAndParseToml(fields_file, &fields)
 	}
 	return fields
 
+}
+
+func (t *TangaField) GetIDAsString() string {
+	return fmt.Sprintf("%d", t.ID)
 }

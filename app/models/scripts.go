@@ -1,7 +1,8 @@
 package models
 
 import (
-	"github.com/k23dev/natalianatalia/pkg/webcore"
+	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -14,29 +15,33 @@ func NewScripts() *Scripts {
 	return &Scripts{}
 }
 
-func (m *Scripts) FindOne(gas *webcore.GasonlineApp, id int) *Scripts {
+func (m *Scripts) FindOne(db *gorm.DB, id int) *Scripts {
 	var this_model Scripts
-	gas.App.DB.Primary.First(&this_model, id)
+	db.First(&this_model, id)
 	return &this_model
 }
 
-func (m *Scripts) FindAll(gas *webcore.GasonlineApp) *[]Scripts {
+func (m *Scripts) FindAll(db *gorm.DB) *[]Scripts {
 	var this_model []Scripts
-	gas.App.DB.Primary.Order("created_at ASC").Find(&this_model)
+	db.Order("created_at ASC").Find(&this_model)
 	return &this_model
 }
 
-func (m *Scripts) Create(gas *webcore.GasonlineApp) *Scripts {
-	gas.App.DB.Primary.Create(&m)
+func (m *Scripts) Create(db *gorm.DB) *Scripts {
+	db.Create(&m)
 	return m
 }
 
-func (m *Scripts) Update(gas *webcore.GasonlineApp) *Scripts {
-	gas.App.DB.Primary.Save(&m)
+func (m *Scripts) Update(db *gorm.DB) *Scripts {
+	db.Save(&m)
 	return m
 }
 
-func (m *Scripts) Delete(gas *webcore.GasonlineApp, id int) *Scripts {
-	gas.App.DB.Primary.Delete(&m)
+func (m *Scripts) Delete(db *gorm.DB, id int) *Scripts {
+	db.Delete(&m)
 	return m
+}
+
+func (s *Scripts) GetIDAsString() string {
+	return fmt.Sprintf("%d", s.ID)
 }

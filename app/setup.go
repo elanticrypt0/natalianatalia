@@ -1,13 +1,18 @@
-package api
+package app
 
 import (
+	"github.com/k23dev/natalianatalia/app/models"
 	"github.com/k23dev/natalianatalia/app/routes"
 	"github.com/k23dev/natalianatalia/pkg/webcore"
 )
 
-func ApiSetup(tapp *webcore.TangoApp) {
+func AppSetup(tapp *webcore.TangoApp) {
 
 	// features routes
-	routes.SetupApiRoutes(tapp)
+	routes.SetupAppRoutes(tapp)
+
+	if tapp.App.Config.App_debug_mode {
+		tapp.App.DB.Primary.AutoMigrate(&models.Tanga{}, &models.TangaField{}, &models.Scripts{})
+	}
 
 }

@@ -8,7 +8,11 @@ import (
 
 type Category struct {
 	gorm.Model
-	Name string `json:"name"`
+	Name string `json:"name" param:"name" query:"name" form:"name"`
+}
+
+type CategoryDTO struct {
+	Name string `json:"name" param:"name" query:"name" form:"name"`
 }
 
 func NewCategory() *Category {

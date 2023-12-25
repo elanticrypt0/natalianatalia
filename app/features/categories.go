@@ -43,17 +43,31 @@ func ShowFormCategory(c echo.Context, tapp *webcore.TangoApp, is_new bool) error
 }
 
 func CreateCategory(c echo.Context, tapp *webcore.TangoApp) error {
+	// get the incoming values
+	catDTO := models.CategoryDTO{}
+	if err := c.Bind(&catDTO); err != nil {
+		return c.String(http.StatusBadRequest, "Bad request")
+	}
+
 	cat := models.NewCategory()
-	c.Bind(&cat)
-	category := cat.Create(tapp.App.DB.Primary, cat.Name)
+	category := cat.Create(tapp.App.DB.Primary, catDTO.Name)
 	return c.JSON(http.StatusOK, category)
 }
 
 func UpdateCategory(c echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
+
+	// get the incoming values
+	catDTO := models.CategoryDTO{}
+	if err := c.Bind(&catDTO); err != nil {
+		return c.String(http.StatusBadRequest, "Bad request")
+	}
+
 	cat := models.NewCategory()
 	category := cat.FindOne(tapp.App.DB.Primary, id)
-	c.Bind(&cat)
+
+	category.Name = catDTO.Name
+
 	category = cat.Update(tapp.App.DB.Primary, *category)
 	return c.JSON(http.StatusOK, category)
 }

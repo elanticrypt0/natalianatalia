@@ -4,12 +4,14 @@ import (
 	"fmt"
 
 	"github.com/k23dev/go4it"
+	"github.com/k23dev/natalianatalia/pkg/nn"
 	"github.com/labstack/echo/v4"
 )
 
 type TangoApp struct {
-	App    *go4it.App
-	Server *echo.Echo
+	App      *go4it.App
+	Server   *echo.Echo
+	NNConfig *nn.NNConfig
 }
 
 func (tapp *TangoApp) PrintAppInfo() {

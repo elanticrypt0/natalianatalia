@@ -1,0 +1,40 @@
+package routes
+
+import (
+	"github.com/k23dev/natalianatalia/app/features"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
+
+	"github.com/labstack/echo/v4"
+)
+
+func $1Routes(tapp *webcore.TangoApp, rootPath *echo.Group) {
+	$1 := rootPath.Group("/$1/")
+
+	$1.GET("", func(c echo.Context) error {
+		return features.FindAll$2(c, tapp)
+	})
+
+	$1.GET(":id", func(c echo.Context) error {
+		return features.FindOne$3(c, tapp)
+	})
+
+	$1.GET("new", func(c echo.Context) error {
+		return features.ShowForm$3(c, tapp, true)
+	})
+
+	$1.GET("edit/:id", func(c echo.Context) error {
+		return features.ShowForm$3(c, tapp, false)
+	})
+
+	$1.POST("", func(c echo.Context) error {
+		return features.Create$3(c, tapp)
+	})
+
+	$1.PUT(":id", func(c echo.Context) error {
+		return features.Update$3(c, tapp)
+	})
+
+	$1.DELETE(":id", func(c echo.Context) error {
+		return features.Delete$3(c, tapp)
+	})
+}

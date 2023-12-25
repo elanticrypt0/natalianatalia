@@ -1,4 +1,4 @@
-package nnconfig
+package nn
 
 import "github.com/k23dev/go4it"
 
