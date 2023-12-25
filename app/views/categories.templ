@@ -12,7 +12,7 @@ templ CategoriesShowList(appTitle string,categories []models.Category){
         <h1>Lista de categorías</h1>
         <ol>
             for _,cat:=range(categories){
-                <li><a href={ templ.URL("/categories/"+cat.GetIDAsString(cat.ID))}>{cat.Name}</a></li>
+                <li><a href="#cat" hx-get={ "/categories/"+cat.GetIDAsString(cat.ID)} hx-trigger="click">{cat.Name}</a></li>
             }
         </ol>
     }
@@ -20,9 +20,7 @@ templ CategoriesShowList(appTitle string,categories []models.Category){
 }
 
 templ CategoriesShowOne(appTitle string,cat models.Category){
-    @layouts.Default(appTitle){
-        <h1>Categoría {cat.Name}</h1>
-    }
+    <h1>Categoría > {cat.Name}</h1>
 }
 
 templ CategoriesFormCreate(appTitle string){
