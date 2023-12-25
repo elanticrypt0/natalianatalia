@@ -1,8 +1,9 @@
 package utils
 
 import (
+	"github.com/k23dev/natalianatalia/app/views"
+
 	"github.com/a-h/templ"
-	"github.com/k23dev/tango/app/views"
 	"github.com/labstack/echo/v4"
 )
 

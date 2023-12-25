@@ -1,0 +1,37 @@
+package models
+
+type $1 struct {
+	gorm.Model
+	Name string `json:"name"`
+}
+
+func New$1() *$1 {
+	return &$1{}
+}
+
+func (m *$1) FindOne(gas *webcore.GasonlineApp, id int) *$1 {
+	var this_model $1
+	gas.App.DB.Primary.First(&this_model, id)
+	return &this_model
+}
+
+func (m *$1) FindAll(gas *webcore.GasonlineApp) *[]$1 {
+	var this_model []$1
+	gas.App.DB.Primary.Order("created_at ASC").Find(&this_model)
+	return &this_model
+}
+
+func (m *$1) Create(gas *webcore.GasonlineApp) *$1 {
+	gas.App.DB.Primary.Create(&m)
+	return m
+}
+
+func (m *$1) Update(gas *webcore.GasonlineApp) *$1 {
+	gas.App.DB.Primary.Save(&m)
+	return m
+}
+
+func (m *$1) Delete(gas *webcore.GasonlineApp, id int) *$1 {
+	gas.App.DB.Primary.Delete(&m)
+	return m
+}

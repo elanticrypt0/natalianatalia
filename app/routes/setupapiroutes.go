@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/k23dev/tango/pkg/webcore"
+	"github.com/k23dev/natalianatalia/pkg/webcore"
 )
 
 func SetupApiRoutes(tapp *webcore.TangoApp) {

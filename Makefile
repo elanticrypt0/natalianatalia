@@ -7,6 +7,8 @@ tango-install:
 	make go-install-deps
 	make tailwind-install
 	make htmlx-install
+	make templates
+	go mod tidy
 
 go-install-deps:
 	go install github.com/cosmtrek/air@latest
