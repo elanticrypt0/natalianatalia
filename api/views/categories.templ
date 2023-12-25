@@ -4,14 +4,15 @@ import (
     "github.com/k23dev/tango/api/views/layouts"
     "github.com/k23dev/tango/api/models"
 )
-    
+
+var catIDStr string
 
 templ CategoriesShowList(categories []models.Category){
     @layouts.Default("Categorias"){
         <h1>Lista de categorías</h1>
         <ol>
             for _,cat:=range(categories){
-                <li><a href="/">{cat.Name}</a></li>
+                <li><a href={ templ.URL("/categories/"+cat.GetIDAsString(cat.ID))}>{cat.Name}</a></li>
             }
         </ol>
     }
@@ -27,12 +28,20 @@ templ CategoriesShowOne(cat models.Category){
 templ CategoriesFormCreate(){
     @layouts.Default("Categorias"){
         <h1>Nueva categoría</h1>
+
+        <form action="/categories" method="post">
+            <input name="name" value=""/>
+            <input type="submit" value="Enviar"></input>
+        </form>
     }
 }
 
 templ CategoriesFormUpdate(cat *models.Category){
     @layouts.Default("Categorias"){
-        <h1>Editar categoría</h1>
+        <form action="/categories" method="put">
+            <input name="name" value={cat.Name}/>
+            <input type="submit" value="Enviar"></input>
+        </form>
     }
 }
 

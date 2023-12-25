@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -45,4 +47,8 @@ func (c *Category) Delete(db *gorm.DB, id int) *Category {
 	db.First(&category, id)
 	db.Delete(&category)
 	return &category
+}
+
+func (c *Category) GetIDAsString(id uint) string {
+	return fmt.Sprintf("%d", id)
 }
