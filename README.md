@@ -23,14 +23,17 @@ Los modelos deben recibir también la variable que apunte a *webcore.TangoApp
 
 los archivos publicos están dentro de la carpeta public y por defecto tienen varios accesos. Esto se puede ver en webcore_features/routes.go
 
+# Makefile
 
-# Run in dev mode
+## Instalar dependencias de go
 
-Podés instalar las dependencias.
+Para instalar las dependecias de go y air para poder tener hotreload ejecutar
 
-    make deps
+    make go-install-deps
 
-y luego ejecutar
+## Run in dev mode
+
+Ejecutar
 
     make dev
 
@@ -41,13 +44,22 @@ Pero también puede hacerse manualmente con
 
     make templates
 
-# Generar un build
+## Generar un build
 
 Para genenerar un build ejecutar el comando
 
     make build
 
 
+## HTMLX
+
+Para instalar la librería htmlx sólo hay que ejecutar
+
+    make htmlx-install
+
+y para actualizar la librería
+
+    make htmlx-update
 
 # Auth
 
