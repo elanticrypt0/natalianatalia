@@ -3,22 +3,18 @@ package views
 import (
     "github.com/k23dev/natalianatalia/app/views/layouts"
     "github.com/k23dev/natalianatalia/app/models"
+    "github.com/k23dev/natalianatalia/app/views/components"
+	"github.com/k23dev/natalianatalia/pkg/pagination"
 )
 
-templ TangasShowList(appTitle string,tangas []models.Tanga){
+templ TangasShowList(appTitle string,tangas []models.Tanga,pagination pagination.Pagination){
     @layouts.Default(appTitle){
-        <h1>Tangas</h1>
-        <ol>
-            for _,tan:=range(tangas){
-                <li><a href={templ.URL("#cat-"+tan.GetIDAsString())} hx-get={ "/Tangas/"+tan.GetIDAsString()} hx-trigger="click">{tan.Codename}</a></li>
-            }
-        </ol>
-        // @components.Table(Tangas)
+        @components.TableTangas(tangas,pagination)
     }
 
 }
 
-templ TangasShowOne(appTitle string,tan models.Tanga){
+templ TangasShowOne(tan models.Tanga){
     <h1>Tanga > {tan.Codename}</h1>
 }
 
@@ -26,7 +22,7 @@ templ TangasFormCreate(appTitle string){
     @layouts.Default(appTitle){
         <h1>Nueva Tanga</h1>
 
-        <form action="/tangas/" method="post">
+        <form action="/tangas/create" method="post">
             <input name="codename" value=""/>
             <input type="submit" value="Enviar"></input>
         </form>
@@ -35,8 +31,8 @@ templ TangasFormCreate(appTitle string){
 
 templ TangasFormUpdate(appTitle string,tan *models.Tanga){
     @layouts.Default(appTitle){
-        <form action="/Tangas" method="put">
-            <input name="name" value={tan.Codename}/>
+        <form action={ templ.URL("/tangas/update/"+tan.GetIDAsString())} method="post">
+            <input name="codename" value={tan.Codename}/>
             <input type="submit" value="Enviar"></input>
         </form>
     }

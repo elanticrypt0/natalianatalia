@@ -26,15 +26,15 @@ func tangasRoutes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 		return features.ShowFormTanga(c, tapp, false)
 	})
 
-	tangas.POST("", func(c echo.Context) error {
+	tangas.POST("create", func(c echo.Context) error {
 		return features.CreateTanga(c, tapp)
 	})
 
-	tangas.PUT(":id", func(c echo.Context) error {
+	tangas.POST("update/:id", func(c echo.Context) error {
 		return features.UpdateTanga(c, tapp)
 	})
 
-	tangas.DELETE(":id", func(c echo.Context) error {
+	tangas.GET("delete/:id", func(c echo.Context) error {
 		return features.DeleteTanga(c, tapp)
 	})
 }

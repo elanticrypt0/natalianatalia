@@ -3,31 +3,43 @@ package features
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/k23dev/natalianatalia/app/models"
 	"github.com/k23dev/natalianatalia/app/views"
+	"github.com/k23dev/natalianatalia/pkg/pagination"
 	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"github.com/k23dev/natalianatalia/pkg/webcore/utils"
-
 	"github.com/labstack/echo/v4"
 )
+
+var itemsPerPage = 15
 
 func FindOneCategory(c echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	cat := models.NewCategory()
-	category := cat.FindOne(tapp.App.DB.Primary, id)
-	if category.ID != 0 {
+	category, _ := cat.FindOne(tapp.App.DB.Primary, id)
+	if category != nil {
 		return utils.Render(c, views.CategoriesShowOne(tapp.GetTitleAndVersion(), *category))
 	} else {
-		return utils.RenderNotFound(c)
+		return c.Redirect(http.StatusMovedPermanently, "/404")
 	}
 }
 
 func FindAllCategories(c echo.Context, tapp *webcore.TangoApp) error {
+	queryPage := c.Param("page")
+	var currentPage = 0
+	if queryPage != "" {
+		currentPage, _ = strconv.Atoi(queryPage)
+	}
+
 	cat := models.NewCategory()
-	categories := cat.FindAll(tapp.App.DB.Primary)
-	return utils.Render(c, views.CategoriesShowList(tapp.GetTitleAndVersion(), categories))
+	counter, _ := cat.Count(tapp.App.DB.Primary)
+	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
+	categories, _ := cat.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+
+	return utils.Render(c, views.CategoriesShowList(tapp.GetTitleAndVersion(), *categories, *pagination))
 }
 
 func ShowFormCategory(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
@@ -37,7 +49,7 @@ func ShowFormCategory(c echo.Context, tapp *webcore.TangoApp, is_new bool) error
 		return utils.Render(c, views.CategoriesFormCreate(tapp.GetTitleAndVersion()))
 	} else {
 		id, _ := strconv.Atoi(c.Param("id"))
-		cat := cat.FindOne(tapp.App.DB.Primary, id)
+		cat, _ := cat.FindOne(tapp.App.DB.Primary, id)
 		return utils.Render(c, views.CategoriesFormUpdate(tapp.GetTitleAndVersion(), cat))
 	}
 }
@@ -50,8 +62,9 @@ func CreateCategory(c echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	cat := models.NewCategory()
-	category := cat.Create(tapp.App.DB.Primary, catDTO.Name)
-	return c.JSON(http.StatusOK, category)
+	cat.Create(tapp.App.DB.Primary, catDTO.Name)
+
+	return c.Redirect(http.StatusMovedPermanently, "/categories/")
 }
 
 func UpdateCategory(c echo.Context, tapp *webcore.TangoApp) error {
@@ -64,17 +77,17 @@ func UpdateCategory(c echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	cat := models.NewCategory()
-	category := cat.FindOne(tapp.App.DB.Primary, id)
+	cat.Name = strings.ToLower(catDTO.Name)
 
-	category.Name = catDTO.Name
+	cat.Update(tapp.App.DB.Primary, id, cat.Name)
 
-	category = cat.Update(tapp.App.DB.Primary, *category)
-	return c.JSON(http.StatusOK, category)
+	return c.Redirect(http.StatusMovedPermanently, "/categories/")
 }
 
 func DeleteCategory(c echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	cat := models.NewCategory()
-	category := cat.Delete(tapp.App.DB.Primary, id)
-	return c.JSON(http.StatusOK, category)
+	cat.Delete(tapp.App.DB.Primary, id)
+
+	return c.Redirect(http.StatusMovedPermanently, "/categories/")
 }

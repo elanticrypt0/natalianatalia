@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/k23dev/natalianatalia/app/features"
 	"github.com/k23dev/natalianatalia/pkg/webcore"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -26,15 +25,15 @@ func categoriesRoutes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 		return features.ShowFormCategory(c, tapp, false)
 	})
 
-	categories.POST("", func(c echo.Context) error {
+	categories.POST("create", func(c echo.Context) error {
 		return features.CreateCategory(c, tapp)
 	})
 
-	categories.PUT(":id", func(c echo.Context) error {
+	categories.POST("update/:id", func(c echo.Context) error {
 		return features.UpdateCategory(c, tapp)
 	})
 
-	categories.DELETE(":id", func(c echo.Context) error {
+	categories.GET("delete/:id", func(c echo.Context) error {
 		return features.DeleteCategory(c, tapp)
 	})
 }

@@ -4,43 +4,33 @@ import (
     "github.com/k23dev/natalianatalia/app/views/layouts"
     "github.com/k23dev/natalianatalia/app/models"
 	"github.com/k23dev/natalianatalia/app/views/components"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
 )
 
-var catIDStr string
-
-templ CategoriesShowList(appTitle string,categories []models.Category){
+templ CategoriesShowList(appTitle string,categories []models.Category,pagination pagination.Pagination){
     @layouts.Default(appTitle){
-        // <ol>
-        //     for _,cat:=range(categories){
-        //         <li><a href={templ.URL("#cat-"+cat.GetIDAsString(cat.ID))} hx-get={ "/categories/"+cat.GetIDAsString(cat.ID)} hx-trigger="click">{cat.Name}</a></li>
-        //     }
-        // </ol>
-        @components.Table(categories)
+        @components.TableCategories(categories,pagination)
     }
 
 }
 
 templ CategoriesShowOne(appTitle string,cat models.Category){
-    <h1>Categoría > {cat.Name}</h1>
+    @layouts.Default(appTitle){
+        <h1>Categoría</h1>
+        <h2>{cat.Name}</h2>
+    }
 }
 
 templ CategoriesFormCreate(appTitle string){
     @layouts.Default(appTitle){
-        <h1>Nueva categoría</h1>
-
-        <form action="/categories" method="post">
-            <input name="name" value=""/>
-            <input type="submit" value="Enviar"></input>
-        </form>
+        @forms.Category("/categories/create","")
     }
 }
 
 templ CategoriesFormUpdate(appTitle string,cat *models.Category){
     @layouts.Default(appTitle){
-        <form action="/categories" method="put">
-            <input name="name" value={cat.Name}/>
-            <input type="submit" value="Enviar"></input>
-        </form>
+        @forms.Category("/categories/update/"+cat.GetIDAsString(),cat.Name)
     }
 }
 

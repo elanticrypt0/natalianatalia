@@ -11,8 +11,5 @@ func SetupAppRoutes(tapp *webcore.TangoApp) {
 	IndexRoutes(tapp, rootPath)
 	// categories
 	categoriesRoutes(tapp, rootPath)
-
-	// NataliaNatalia
 	tangasRoutes(tapp, rootPath)
-	scriptsRoutes(tapp, rootPath)
 }
