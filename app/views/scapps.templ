@@ -1,0 +1,47 @@
+
+package views
+
+import (
+    "github.com/k23dev/natalianatalia/app/views/layouts"
+    "github.com/k23dev/natalianatalia/app/models"
+	"github.com/k23dev/natalianatalia/app/views/tables"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
+)
+
+templ ScappsShowList(appTitle string,scapps []models.Scapp,pagination pagination.Pagination){
+    @layouts.Default(appTitle){
+        @tables.Scapps(scapps,pagination)
+    }
+}
+
+templ ScappsShowListEmpty(appTitle string){
+     @layouts.Default(appTitle){
+        @tables.ScappsEmpty()
+    }
+}
+
+templ ScappsShowOne(appTitle string,s models.Scapp){
+    @layouts.Default(appTitle){
+        <h1>Scapp</h1>
+        <h2>{s.Name}</h2>
+    }
+}
+
+templ ScappsFormCreate(appTitle string){
+    @layouts.Default(appTitle){
+        @forms.Scapp("/scapps/create",models.Scapp{})
+    }
+}
+
+templ ScappsFormUpdate(appTitle string,s *models.Scapp){
+    @layouts.Default(appTitle){
+        @forms.Scapp("/scapps/update/"+s.GetIDAsString(),*s)
+    }
+}
+
+templ ScappsDelete(appTitle string,s *models.Scapp){
+    @layouts.Default(appTitle){
+        <h1>Borrar scapp</h1>
+    }
+}

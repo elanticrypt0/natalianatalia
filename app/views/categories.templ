@@ -1,41 +1,50 @@
+
 package views
 
 import (
     "github.com/k23dev/natalianatalia/app/views/layouts"
     "github.com/k23dev/natalianatalia/app/models"
-	"github.com/k23dev/natalianatalia/app/views/components"
+	"github.com/k23dev/natalianatalia/app/views/tables"
 	"github.com/k23dev/natalianatalia/app/views/forms"
     "github.com/k23dev/natalianatalia/pkg/pagination"
 )
 
 templ CategoriesShowList(appTitle string,categories []models.Category,pagination pagination.Pagination){
     @layouts.Default(appTitle){
-        @components.TableCategories(categories,pagination)
+        @tables.Categories(categories,pagination)
     }
 
 }
 
-templ CategoriesShowOne(appTitle string,cat models.Category){
+templ CategoriesShowListEmpty(appTitle string){
     @layouts.Default(appTitle){
-        <h1>Categoría</h1>
-        <h2>{cat.Name}</h2>
+        @tables.CategoriesEmpty()
+    }
+
+}
+
+templ CategoriesShowOne(appTitle string,c models.Category){
+    @layouts.Default(appTitle){
+        <h1>Category</h1>
+        <h2>{c.Name}</h2>
     }
 }
 
 templ CategoriesFormCreate(appTitle string){
     @layouts.Default(appTitle){
-        @forms.Category("/categories/create","")
+        @forms.Category("/categories/create",models.Category{})
     }
 }
 
-templ CategoriesFormUpdate(appTitle string,cat *models.Category){
+templ CategoriesFormUpdate(appTitle string,c *models.Category){
     @layouts.Default(appTitle){
-        @forms.Category("/categories/update/"+cat.GetIDAsString(),cat.Name)
+        @forms.Category("/categories/update/"+c.GetIDAsString(),*c)
     }
 }
 
-templ CategoriesDelete(appTitle string,cat *models.Category){
+templ CategoriesDelete(appTitle string,c *models.Category){
     @layouts.Default(appTitle){
-        <h1>Borrar categoría</h1>
+        <h1>Borrar category</h1>
     }
 }
+	

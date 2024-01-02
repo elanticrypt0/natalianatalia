@@ -1,45 +1,50 @@
+
 package views
 
 import (
     "github.com/k23dev/natalianatalia/app/views/layouts"
     "github.com/k23dev/natalianatalia/app/models"
-    "github.com/k23dev/natalianatalia/app/views/components"
-	"github.com/k23dev/natalianatalia/pkg/pagination"
+	"github.com/k23dev/natalianatalia/app/views/tables"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
 )
 
 templ TangasShowList(appTitle string,tangas []models.Tanga,pagination pagination.Pagination){
     @layouts.Default(appTitle){
-        @components.TableTangas(tangas,pagination)
+        @tables.Tangas(tangas,pagination)
     }
 
 }
 
-templ TangasShowOne(tan models.Tanga){
-    <h1>Tanga > {tan.Codename}</h1>
+templ TangasShowListEmpty(appTitle string){
+    @layouts.Default(appTitle){
+        @tables.TangasEmpty()
+    }
+
+}
+
+templ TangasShowOne(appTitle string,t models.Tanga){
+    @layouts.Default(appTitle){
+        <h1>Tanga</h1>
+        <h2>{t.Name}</h2>
+    }
 }
 
 templ TangasFormCreate(appTitle string){
     @layouts.Default(appTitle){
-        <h1>Nueva Tanga</h1>
-
-        <form action="/tangas/create" method="post">
-            <input name="codename" value=""/>
-            <input type="submit" value="Enviar"></input>
-        </form>
+        @forms.Tanga("/tangas/create","","")
     }
 }
 
-templ TangasFormUpdate(appTitle string,tan *models.Tanga){
+templ TangasFormUpdate(appTitle string,t *models.Tanga){
     @layouts.Default(appTitle){
-        <form action={ templ.URL("/tangas/update/"+tan.GetIDAsString())} method="post">
-            <input name="codename" value={tan.Codename}/>
-            <input type="submit" value="Enviar"></input>
-        </form>
+        @forms.Tanga("/tangas/update/"+t.GetIDAsString(),t.Name,t.Comment)
     }
 }
 
-templ TangasDelete(appTitle string,tan *models.Tanga){
+templ TangasDelete(appTitle string,t *models.Tanga){
     @layouts.Default(appTitle){
-        <h1>Borrar categoría</h1>
+        <h1>Borrar tanga</h1>
     }
 }
+

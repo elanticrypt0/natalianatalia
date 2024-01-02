@@ -12,7 +12,7 @@ func AppSetup(tapp *webcore.TangoApp) {
 	routes.SetupAppRoutes(tapp)
 
 	if tapp.App.Config.App_debug_mode {
-		tapp.App.DB.Primary.AutoMigrate(&models.Category{})
+		tapp.App.DB.Primary.AutoMigrate(&models.Category{}, &models.Tanga{}, &models.Scapp{}, &models.Tangas_field{}, &models.Scapp_param{})
 	}
 
 }

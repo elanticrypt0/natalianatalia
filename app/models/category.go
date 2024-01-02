@@ -26,7 +26,7 @@ func NewCategory() *Category {
 
 func (c *Category) Count(db *gorm.DB) (int, error) {
 	counter := &CategoryCounter{}
-	db.Model(&Category{}).Select("count(ID) as total").Where("delete = ? ", "").Find(&counter)
+	db.Model(&Category{}).Select("count(ID) as total").Find(&counter)
 	return counter.Total, nil
 }
 
@@ -45,8 +45,6 @@ func (c *Category) FindOne(db *gorm.DB, id int) (*Category, error) {
 
 func (c *Category) FindAll(db *gorm.DB) ([]Category, error) {
 	var categories []Category
-	// TODO revisar esta parte
-	// gasonline.App.DB.Primary.Order("created_at ASC").Find(&categories)
 	db.Order("created_at ASC").Find(&categories)
 	if len(categories) <= 0 {
 		return nil, &tango_errors.ModelError{

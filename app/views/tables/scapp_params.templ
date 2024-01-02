@@ -1,19 +1,20 @@
-package components
+
+package tables
 
 import "github.com/k23dev/natalianatalia/app/models"
 import "github.com/k23dev/natalianatalia/app/views/menus"
 import "github.com/k23dev/natalianatalia/pkg/pagination"
 
-templ TableTangas(tangas []models.Tanga,pagination pagination.Pagination){
+templ Scapp_params(scapp_params []models.Scapp_param,pagination pagination.Pagination){
 
 <div class="">
     <div class="py-8">
         <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 class="text-2xl leading-tight">
-                Categorías
+                Scapp_params
             </h2>
             <div class="text-end">
-                @menus.Categories()
+                @menus.Scapp_params()
             </div>
         </div>
             <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
@@ -35,16 +36,16 @@ templ TableTangas(tangas []models.Tanga,pagination pagination.Pagination){
                             </tr>
                         </thead>
                         <tbody>
-                            for _,tan:=range(tangas){
+                            for _,s:=range(scapp_params){
                             <tr>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {tan.Codename}
+                                        {s.Method}
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {tan.CreatedAt.String()}
+                                        {s.CreatedAt.String()}
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -52,16 +53,16 @@ templ TableTangas(tangas []models.Tanga,pagination pagination.Pagination){
                                         <span aria-hidden="true" class="absolute inset-0 bg-green-200 rounded-full opacity-50">
                                         </span>
                                         <span class="relative">
-                                            {tan.DeletedAt.Time.String()}
+                                            {s.DeletedAt.Time.String()}
                                         </span>
                                     </span>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                    <a href={templ.URL("/tangas/edit/"+tan.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
+                                    <a href={templ.URL("/scapp_params/edit/"+s.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
                                         Edit
                                     </a>
                                     |
-                                    <a href={templ.URL("/tangas/delete/"+tan.GetIDAsString())} class="text-red-600 hover:text-red-900">
+                                    <a href={templ.URL("/scapp_params/delete/"+s.GetIDAsString())} class="text-red-600 hover:text-red-900">
                                         Delete
                                     </a>
                                 </td>
@@ -99,3 +100,23 @@ templ TableTangas(tangas []models.Tanga,pagination pagination.Pagination){
         </div>
 </div>
 }
+
+templ Scapp_paramsEmpty(){
+<div class="">
+    <div class="py-8">
+        <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
+            <h2 class="text-2xl leading-tight">
+                Scapp_params
+            </h2>
+            <div class="text-end">
+                @menus.Scapp_params()
+            </div>
+        </div>
+    	<div>
+            <h1>No items</h1>
+    	</div>
+    </div>
+</div>
+
+}
+	

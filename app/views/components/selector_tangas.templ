@@ -1,0 +1,17 @@
+package components
+
+import (
+    "github.com/k23dev/natalianatalia/app/models"
+)
+
+templ SelectorTangas(tangasList []models.Tanga){
+
+<label class="text-gray-700" for="animals">
+    Tanga
+    <select name="tanga_id" id="tanga_id" class="block px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+    for _, tanga :=range(tangasList){
+        <option value={tanga.GetIDAsString()}>{tanga.Name}</option>
+    }
+    </select>
+</label>
+}

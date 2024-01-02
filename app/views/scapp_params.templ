@@ -1,0 +1,50 @@
+
+package views
+
+import (
+    "github.com/k23dev/natalianatalia/app/views/layouts"
+    "github.com/k23dev/natalianatalia/app/models"
+	"github.com/k23dev/natalianatalia/app/views/tables"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
+)
+
+templ Scapp_paramsShowList(appTitle string,scapp_params []models.Scapp_param,pagination pagination.Pagination){
+    @layouts.Default(appTitle){
+        @tables.Scapp_params(scapp_params,pagination)
+    }
+
+}
+
+templ Scapp_paramsShowListEmpty(appTitle string){
+    @layouts.Default(appTitle){
+        @tables.Scapp_paramsEmpty()
+    }
+
+}
+
+templ Scapp_paramsShowOne(appTitle string,s models.Scapp_param){
+    @layouts.Default(appTitle){
+        <h1>Scapp_param</h1>
+        <h2>{s.Method}</h2>
+    }
+}
+
+templ Scapp_paramsFormCreate(appTitle string,list *[]models.Scapp){
+    @layouts.Default(appTitle){
+        @forms.Scapp_param("/scapp_params/create",*list)
+    }
+}
+
+templ Scapp_paramsFormUpdate(appTitle string,s *models.Scapp_param,list *[]models.Scapp){
+    @layouts.Default(appTitle){
+        @forms.Scapp_paramUpdate("/scapp_params/update/"+s.GetIDAsString(),*s,*list)
+    }
+}
+
+templ Scapp_paramsDelete(appTitle string,s *models.Scapp_param){
+    @layouts.Default(appTitle){
+        <h1>Borrar scapp_param</h1>
+    }
+}
+	

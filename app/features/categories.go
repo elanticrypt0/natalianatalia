@@ -13,81 +13,84 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var itemsPerPage = 15
+func FindOneCategory(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(ctx.Param("id"))
 
-func FindOneCategory(c echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	cat := models.NewCategory()
-	category, _ := cat.FindOne(tapp.App.DB.Primary, id)
+	c := models.NewCategory()
+	category, _ := c.FindOne(tapp.App.DB.Primary, id)
 	if category != nil {
-		return utils.Render(c, views.CategoriesShowOne(tapp.GetTitleAndVersion(), *category))
+		return utils.Render(ctx, views.CategoriesShowOne(tapp.GetTitleAndVersion(), *category))
 	} else {
-		return c.Redirect(http.StatusMovedPermanently, "/404")
+		return ctx.Redirect(http.StatusMovedPermanently, "/404")
 	}
 }
 
-func FindAllCategories(c echo.Context, tapp *webcore.TangoApp) error {
-	queryPage := c.Param("page")
+func FindAllCategories(ctx echo.Context, tapp *webcore.TangoApp) error {
+	queryPage := ctx.Param("page")
 	var currentPage = 0
 	if queryPage != "" {
 		currentPage, _ = strconv.Atoi(queryPage)
 	}
 
-	cat := models.NewCategory()
-	counter, _ := cat.Count(tapp.App.DB.Primary)
+	c := models.NewCategory()
+	counter, _ := c.Count(tapp.App.DB.Primary)
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
-	categories, _ := cat.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+	cBuf, _ := c.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 
-	return utils.Render(c, views.CategoriesShowList(tapp.GetTitleAndVersion(), *categories, *pagination))
+	if cBuf != nil {
+		return utils.Render(ctx, views.CategoriesShowList(tapp.GetTitleAndVersion(), *cBuf, *pagination))
+	} else {
+		return utils.Render(ctx, views.CategoriesShowListEmpty(tapp.GetTitleAndVersion()))
+	}
+
 }
 
-func ShowFormCategory(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
-	cat := models.NewCategory()
+func ShowFormCategory(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
+	c := models.NewCategory()
 
 	if is_new {
-		return utils.Render(c, views.CategoriesFormCreate(tapp.GetTitleAndVersion()))
+		return utils.Render(ctx, views.CategoriesFormCreate(tapp.GetTitleAndVersion()))
 	} else {
-		id, _ := strconv.Atoi(c.Param("id"))
-		cat, _ := cat.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(c, views.CategoriesFormUpdate(tapp.GetTitleAndVersion(), cat))
+		id, _ := strconv.Atoi(ctx.Param("id"))
+		c, _ := c.FindOne(tapp.App.DB.Primary, id)
+		return utils.Render(ctx, views.CategoriesFormUpdate(tapp.GetTitleAndVersion(), c))
 	}
 }
 
-func CreateCategory(c echo.Context, tapp *webcore.TangoApp) error {
+func CreateCategory(ctx echo.Context, tapp *webcore.TangoApp) error {
 	// get the incoming values
-	catDTO := models.CategoryDTO{}
-	if err := c.Bind(&catDTO); err != nil {
-		return c.String(http.StatusBadRequest, "Bad request")
+	cDTO := models.CategoryDTO{}
+	if err := ctx.Bind(&cDTO); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
-	cat := models.NewCategory()
-	cat.Create(tapp.App.DB.Primary, catDTO.Name)
+	c := models.NewCategory()
+	c.Create(tapp.App.DB.Primary, cDTO.Name)
 
-	return c.Redirect(http.StatusMovedPermanently, "/categories/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/categories/")
 }
 
-func UpdateCategory(c echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+func UpdateCategory(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(ctx.Param("id"))
 
 	// get the incoming values
-	catDTO := models.CategoryDTO{}
-	if err := c.Bind(&catDTO); err != nil {
-		return c.String(http.StatusBadRequest, "Bad request")
+	cDTO := models.CategoryDTO{}
+	if err := ctx.Bind(&cDTO); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
-	cat := models.NewCategory()
-	cat.Name = strings.ToLower(catDTO.Name)
+	c := models.NewCategory()
+	c.Name = strings.ToLower(cDTO.Name)
 
-	cat.Update(tapp.App.DB.Primary, id, cat.Name)
+	c.Update(tapp.App.DB.Primary, id, c.Name)
 
-	return c.Redirect(http.StatusMovedPermanently, "/categories/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/categories/")
 }
 
-func DeleteCategory(c echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	cat := models.NewCategory()
-	cat.Delete(tapp.App.DB.Primary, id)
+func DeleteCategory(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(ctx.Param("id"))
+	c := models.NewCategory()
+	c.Delete(tapp.App.DB.Primary, id)
 
-	return c.Redirect(http.StatusMovedPermanently, "/categories/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/categories/")
 }

@@ -1,0 +1,50 @@
+
+package views
+
+import (
+    "github.com/k23dev/natalianatalia/app/views/layouts"
+    "github.com/k23dev/natalianatalia/app/models"
+	"github.com/k23dev/natalianatalia/app/views/tables"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
+)
+
+templ Tanga_fieldsShowList(appTitle string,tanga_fields []models.Tanga_field,pagination pagination.Pagination){
+    @layouts.Default(appTitle){
+        @tables.Tanga_fields(tanga_fields,pagination)
+    }
+
+}
+
+templ Tanga_fieldsShowListEmpty(appTitle string){
+    @layouts.Default(appTitle){
+        @tables.Tanga_fieldsEmpty()
+    }
+
+}
+
+templ Tanga_fieldsShowOne(appTitle string,t models.Tanga_field){
+    @layouts.Default(appTitle){
+        <h1>Tanga_field</h1>
+        <h2>{t.Name}</h2>
+    }
+}
+
+templ Tanga_fieldsFormCreate(appTitle string,list *[]models.Tanga_field){
+    @layouts.Default(appTitle){
+        @forms.Tanga_field("/tanga_fields/create",*list)
+    }
+}
+
+templ Tanga_fieldsFormUpdate(appTitle string,t *models.Tanga_field,list *[]models.Tanga_field){
+    @layouts.Default(appTitle){
+        @forms.Tanga_fieldUpdate("/tanga_fields/update/"+t.GetIDAsString(),*t,*list)
+    }
+}
+
+templ Tanga_fieldsDelete(appTitle string,t *models.Tanga_field){
+    @layouts.Default(appTitle){
+        <h1>Borrar tanga_field</h1>
+    }
+}
+	

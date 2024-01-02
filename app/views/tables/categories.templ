@@ -1,16 +1,17 @@
-package components
+
+package tables
 
 import "github.com/k23dev/natalianatalia/app/models"
 import "github.com/k23dev/natalianatalia/app/views/menus"
 import "github.com/k23dev/natalianatalia/pkg/pagination"
 
-templ TableCategories(categories []models.Category,pagination pagination.Pagination){
+templ Categories(categories []models.Category,pagination pagination.Pagination){
 
 <div class="">
     <div class="py-8">
         <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 class="text-2xl leading-tight">
-                Categorías
+                Categories
             </h2>
             <div class="text-end">
                 @menus.Categories()
@@ -35,16 +36,16 @@ templ TableCategories(categories []models.Category,pagination pagination.Paginat
                             </tr>
                         </thead>
                         <tbody>
-                            for _,cat:=range(categories){
+                            for _,c:=range(categories){
                             <tr>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {cat.Name}
+                                        {c.Name}
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {cat.CreatedAt.String()}
+                                        {c.CreatedAt.String()}
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -52,16 +53,16 @@ templ TableCategories(categories []models.Category,pagination pagination.Paginat
                                         <span aria-hidden="true" class="absolute inset-0 bg-green-200 rounded-full opacity-50">
                                         </span>
                                         <span class="relative">
-                                            {cat.DeletedAt.Time.String()}
+                                            {c.DeletedAt.Time.String()}
                                         </span>
                                     </span>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                    <a href={templ.URL("/categories/edit/"+cat.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
+                                    <a href={templ.URL("/categories/edit/"+c.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
                                         Edit
                                     </a>
                                     |
-                                    <a href={templ.URL("/categories/delete/"+cat.GetIDAsString())} class="text-red-600 hover:text-red-900">
+                                    <a href={templ.URL("/categories/delete/"+c.GetIDAsString())} class="text-red-600 hover:text-red-900">
                                         Delete
                                     </a>
                                 </td>
@@ -99,3 +100,23 @@ templ TableCategories(categories []models.Category,pagination pagination.Paginat
         </div>
 </div>
 }
+
+templ CategoriesEmpty(){
+<div class="">
+    <div class="py-8">
+        <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
+            <h2 class="text-2xl leading-tight">
+                Categories
+            </h2>
+            <div class="text-end">
+                @menus.Categories()
+            </div>
+        </div>
+    	<div>
+            <h1>No items</h1>
+    	</div>
+    </div>
+</div>
+
+}
+	

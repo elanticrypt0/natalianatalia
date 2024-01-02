@@ -9,31 +9,31 @@ import (
 func categoriesRoutes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 	categories := rootPath.Group("/categories/")
 
-	categories.GET("", func(c echo.Context) error {
-		return features.FindAllCategories(c, tapp)
+	categories.GET("", func(ctx echo.Context) error {
+		return features.FindAllCategories(ctx, tapp)
 	})
 
-	categories.GET(":id", func(c echo.Context) error {
-		return features.FindOneCategory(c, tapp)
+	categories.GET(":id", func(ctx echo.Context) error {
+		return features.FindOneCategory(ctx, tapp)
 	})
 
-	categories.GET("new", func(c echo.Context) error {
-		return features.ShowFormCategory(c, tapp, true)
+	categories.GET("new", func(ctx echo.Context) error {
+		return features.ShowFormCategory(ctx, tapp, true)
 	})
 
-	categories.GET("edit/:id", func(c echo.Context) error {
-		return features.ShowFormCategory(c, tapp, false)
+	categories.GET("edit/:id", func(ctx echo.Context) error {
+		return features.ShowFormCategory(ctx, tapp, false)
 	})
 
-	categories.POST("create", func(c echo.Context) error {
-		return features.CreateCategory(c, tapp)
+	categories.POST("create", func(ctx echo.Context) error {
+		return features.CreateCategory(ctx, tapp)
 	})
 
-	categories.POST("update/:id", func(c echo.Context) error {
-		return features.UpdateCategory(c, tapp)
+	categories.POST("update/:id", func(ctx echo.Context) error {
+		return features.UpdateCategory(ctx, tapp)
 	})
 
-	categories.GET("delete/:id", func(c echo.Context) error {
-		return features.DeleteCategory(c, tapp)
+	categories.GET("delete/:id", func(ctx echo.Context) error {
+		return features.DeleteCategory(ctx, tapp)
 	})
 }

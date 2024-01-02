@@ -3,90 +3,95 @@ package features
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/k23dev/natalianatalia/app/models"
 	"github.com/k23dev/natalianatalia/app/views"
 	"github.com/k23dev/natalianatalia/pkg/pagination"
 	"github.com/k23dev/natalianatalia/pkg/webcore"
 	"github.com/k23dev/natalianatalia/pkg/webcore/utils"
-
 	"github.com/labstack/echo/v4"
 )
 
-func FindOneTanga(c echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+func FindOneTanga(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(ctx.Param("id"))
 
-	tan := models.NewTanga()
-	tanga, _ := tan.FindOne(tapp.App.DB.Primary, id)
-	if tanga.ID != 0 {
-		return utils.Render(c, views.TangasShowOne(*tanga))
+	t := models.NewTanga()
+	tanga, _ := t.FindOne(tapp.App.DB.Primary, id)
+	if tanga != nil {
+		return utils.Render(ctx, views.TangasShowOne(tapp.GetTitleAndVersion(), *tanga))
 	} else {
-		return utils.RenderNotFound(c, tapp.GetTitleAndVersion())
+		return ctx.Redirect(http.StatusMovedPermanently, "/404")
 	}
 }
 
-func FindAllTangas(c echo.Context, tapp *webcore.TangoApp) error {
-	// tan := models.NewTanga()
-	// Tangas, _ := tan.FindAll(tapp.App.DB.Primary)
-
-	// return utils.Render(c, views.TangasShowList(tapp.GetTitleAndVersion(), *Tangas))
-
-	queryPage := c.Param("page")
+func FindAllTangas(ctx echo.Context, tapp *webcore.TangoApp) error {
+	queryPage := ctx.Param("page")
 	var currentPage = 0
 	if queryPage != "" {
 		currentPage, _ = strconv.Atoi(queryPage)
 	}
 
-	tan := models.NewTanga()
-	counter, _ := tan.Count(tapp.App.DB.Primary)
+	t := models.NewTanga()
+	counter, _ := t.Count(tapp.App.DB.Primary)
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
-	tangas, _ := tan.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+	tBuf, _ := t.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 
-	return utils.Render(c, views.TangasShowList(tapp.GetTitleAndVersion(), *tangas, *pagination))
+	if tBuf != nil {
+		return utils.Render(ctx, views.TangasShowList(tapp.GetTitleAndVersion(), *tBuf, *pagination))
+	} else {
+		return utils.Render(ctx, views.TangasShowListEmpty(tapp.GetTitleAndVersion()))
+	}
 
 }
 
-func ShowFormTanga(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
-	tan := models.NewTanga()
+func ShowFormTanga(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
+	t := models.NewTanga()
 
 	if is_new {
-		return utils.Render(c, views.TangasFormCreate(tapp.GetTitleAndVersion()))
+		return utils.Render(ctx, views.TangasFormCreate(tapp.GetTitleAndVersion()))
 	} else {
-		id, _ := strconv.Atoi(c.Param("id"))
-		tan, _ := tan.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(c, views.TangasFormUpdate(tapp.GetTitleAndVersion(), tan))
+		id, _ := strconv.Atoi(ctx.Param("id"))
+		t, _ := t.FindOne(tapp.App.DB.Primary, id)
+		return utils.Render(ctx, views.TangasFormUpdate(tapp.GetTitleAndVersion(), t))
 	}
 }
 
-func CreateTanga(c echo.Context, tapp *webcore.TangoApp) error {
-	tanDTO := models.TangaDTO{}
-	if err := c.Bind(&tanDTO); err != nil {
-		return c.String(http.StatusBadRequest, "Bad request")
+func CreateTanga(ctx echo.Context, tapp *webcore.TangoApp) error {
+	// get the incoming values
+	tDTO := models.TangaDTO{}
+	if err := ctx.Bind(&tDTO); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
-	tan := models.NewTanga()
-	tan.Create(tapp.App.DB.Primary, tanDTO.Codename)
+	t := models.NewTanga()
+	t.Create(tapp.App.DB.Primary, tDTO.Name, tDTO.Comment)
 
-	return c.Redirect(http.StatusMovedPermanently, "/tangas/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/tangas/")
 }
 
-func UpdateTanga(c echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+func UpdateTanga(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(ctx.Param("id"))
 
 	// get the incoming values
-	tanDTO := models.TangaDTO{}
-	if err := c.Bind(&tanDTO); err != nil {
-		return c.String(http.StatusBadRequest, "Bad request")
+	tDTO := models.TangaDTO{}
+	if err := ctx.Bind(&tDTO); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
-	tan := models.NewTanga()
-	tan.Update(tapp.App.DB.Primary, id, tanDTO.Codename)
-	return c.Redirect(http.StatusMovedPermanently, "/tangas/")
+	t := models.NewTanga()
+	t.Name = strings.ToLower(tDTO.Name)
+	t.Comment = tDTO.Comment
+
+	t.Update(tapp.App.DB.Primary, id, t.Name, t.Comment)
+
+	return ctx.Redirect(http.StatusMovedPermanently, "/tangas/")
 }
 
-func DeleteTanga(c echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	cat := models.NewTanga()
-	cat.Delete(tapp.App.DB.Primary, id)
-	return c.Redirect(http.StatusMovedPermanently, "/tangas/")
+func DeleteTanga(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(ctx.Param("id"))
+	t := models.NewTanga()
+	t.Delete(tapp.App.DB.Primary, id)
+
+	return ctx.Redirect(http.StatusMovedPermanently, "/tangas/")
 }

@@ -3,62 +3,95 @@ package models
 import (
 	"fmt"
 
-	"github.com/k23dev/go4it"
-	"github.com/k23dev/natalianatalia/pkg/webcore"
+	"github.com/k23dev/natalianatalia/pkg/tango_errors"
 	"gorm.io/gorm"
 )
 
-type TangaField struct {
+type Tanga_field struct {
 	gorm.Model
-	Name      string `json:"f_name"`
-	Data      string `json:"f_data"`
-	TangaUUID string
-	Tanga     Tanga `gorm:"foreignKey:TangaUUID;references:UUID"`
+	Name string `json:"name" param:"name" query:"name" form:"name"`
 }
 
-func NewTangaField() *TangaField {
-	return &TangaField{}
+type Tanga_fieldDTO struct {
+	Name string `json:"name" param:"name" query:"name" form:"name"`
 }
 
-func (m *TangaField) FindOne(db *gorm.DB, id int) *TangaField {
-	var this_model TangaField
-	db.First(&this_model, id)
-	return &this_model
+type Tanga_fieldCounter struct {
+	Total int
 }
 
-func (m *TangaField) FindAll(db *gorm.DB) *[]TangaField {
-	var this_model []TangaField
-	db.Order("created_at ASC").Find(&this_model)
-	return &this_model
+func NewTanga_field() *Tanga_field {
+	return &Tanga_field{}
 }
 
-func (m *TangaField) Create(db *gorm.DB) *TangaField {
-	db.Create(&m)
-	return m
+func (t *Tanga_field) Count(db *gorm.DB) (int, error) {
+	counter := &Tanga_fieldCounter{}
+	db.Model(&Tanga_field{}).Select("count(ID) as total").Find(&counter)
+	return counter.Total, nil
 }
 
-func (m *TangaField) Update(db *gorm.DB) *TangaField {
-	db.Save(&m)
-	return m
-}
-
-func (m *TangaField) Delete(db *gorm.DB, id int) *TangaField {
-	db.Delete(&m)
-	return m
-}
-
-// Load commond tanga fields
-func (m *TangaField) LoadCommodFields(tapp *webcore.TangoApp) *[]TangaField {
-
-	fields := &[]TangaField{}
-	if tapp.NNConfig.Tanga_fields_file != "" {
-		fields_file := tapp.NNConfig.Tanga_fields_file + ".toml"
-		go4it.ReadAndParseToml(fields_file, &fields)
+func (t *Tanga_field) FindOne(db *gorm.DB, id int) (*Tanga_field, error) {
+	var tanga_field Tanga_field
+	db.First(&tanga_field, id)
+	if tanga_field.ID == 0 {
+		return nil, &tango_errors.ModelError{
+			ModelName: "Tanga_field",
+			Code:      0,
+			Message:   tango_errors.MsgIDNotFound(id),
+		}
 	}
-	return fields
-
+	return &tanga_field, nil
 }
 
-func (t *TangaField) GetIDAsString() string {
+func (t *Tanga_field) FindAll(db *gorm.DB) ([]Tanga_field, error) {
+	var tanga_fields []Tanga_field
+	db.Order("created_at ASC").Find(&tanga_fields)
+	if len(tanga_fields) <= 0 {
+		return nil, &tango_errors.ModelError{
+			ModelName: "Tanga_field",
+			Code:      0,
+			Message:   tango_errors.MsgZeroRecordsFound(),
+		}
+	}
+	return tanga_fields, nil
+}
+
+func (t *Tanga_field) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) (*[]Tanga_field, error) {
+	tanga_fields := []Tanga_field{}
+
+	db.Order("created_at ASC").Limit(itemsPerPage).Offset(itemsPerPage * currentPage).Find(&tanga_fields)
+	if len(tanga_fields) <= 0 {
+		return nil, &tango_errors.ModelError{
+			ModelName: "Tanga_field",
+			Code:      0,
+			Message:   tango_errors.MsgZeroRecordsFound(),
+		}
+	}
+	return &tanga_fields, nil
+}
+
+func (t *Tanga_field) Create(db *gorm.DB, name string) (*Tanga_field, error) {
+	tanga_field := Tanga_field{
+		Name: name,
+	}
+	db.Create(&tanga_field)
+	return &tanga_field, nil
+}
+
+func (t *Tanga_field) Update(db *gorm.DB, id int, name string) (*Tanga_field, error) {
+	db.Model(&Tanga_field{}).Where("ID =?", id).Update("name", name)
+	return t, nil
+}
+
+func (t *Tanga_field) Delete(db *gorm.DB, id int) (*Tanga_field, error) {
+	tanga_field, err := t.FindOne(db, id)
+	if err != nil {
+		return nil, err
+	}
+	db.Delete(&tanga_field)
+	return tanga_field, nil
+}
+
+func (t *Tanga_field) GetIDAsString() string {
 	return fmt.Sprintf("%d", t.ID)
 }

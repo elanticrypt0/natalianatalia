@@ -1,0 +1,23 @@
+
+package components
+
+import(
+    "github.com/k23dev/natalianatalia/app/models"
+)
+
+templ SelectorScapp_param_update(list []models.Scapp_param,currentSelectedID uint){
+
+<label class="text-gray-700" for="item_id">
+    scapp_params
+    <select name="scapp_param_id" id="scapp_param_id" class="block px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+    for _, item :=range(list){
+        if currentSelectedID == item.ID{
+            <option value={item.GetIDAsString()} selected>{item.Method}</option>
+        }else{
+            <option value={item.GetIDAsString()}>{item.Method}</option>
+        }
+    }
+    </select>
+</label>
+}
+	

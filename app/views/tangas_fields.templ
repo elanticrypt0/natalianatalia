@@ -1,0 +1,50 @@
+
+package views
+
+import (
+    "github.com/k23dev/natalianatalia/app/views/layouts"
+    "github.com/k23dev/natalianatalia/app/models"
+	"github.com/k23dev/natalianatalia/app/views/tables"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
+)
+
+templ Tangas_fieldsShowList(appTitle string,tangas_fields []models.Tangas_field,pagination pagination.Pagination){
+    @layouts.Default(appTitle){
+        @tables.Tangas_fields(tangas_fields,pagination)
+    }
+
+}
+
+templ Tangas_fieldsShowListEmpty(appTitle string){
+    @layouts.Default(appTitle){
+        @tables.Tangas_fieldsEmpty()
+    }
+
+}
+
+templ Tangas_fieldsShowOne(appTitle string,t models.Tangas_field){
+    @layouts.Default(appTitle){
+        <h1>Tangas_field</h1>
+        <h2>{t.Name}</h2>
+    }
+}
+
+templ Tangas_fieldsFormCreate(appTitle string,tangasList *[]models.Tanga){
+    @layouts.Default(appTitle){
+        @forms.Tangas_field("/tangas_fields/create","","",*tangasList)
+    }
+}
+
+templ Tangas_fieldsFormUpdate(appTitle string,t *models.Tangas_field,tangasList *[]models.Tanga){
+    @layouts.Default(appTitle){
+        @forms.Tangas_field("/tangas_fields/update/"+t.GetIDAsString(),t.Name,t.FValue,*tangasList)
+    }
+}
+
+templ Tangas_fieldsDelete(appTitle string,t *models.Tangas_field){
+    @layouts.Default(appTitle){
+        <h1>Borrar tangas_field</h1>
+    }
+}
+	

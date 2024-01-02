@@ -1,31 +1,80 @@
-# To do
+# TODO 
 
-1. Creación de perfiles de las tangas
-    1.1 Nueva tanga
-    1.2 Agregar campos a esa tanga
-    1.3 Modificar esos campos
-    1.4 Eliminar esos campos
+# NataliaNatalia
 
-2. CRUD de scripts (python)
-    2.1 Agregar script
-    2.2 Agregar paramámetros a ese script
-    2.3 Enlazar un campo de la tanga con ese script
-    2.4 Ejecutar el script con esos campos
-    2.5 Mostrar el resultado
-    2.6 Guardar esos resultados
+Es un proyecto que sirve para cargar datos sobre un objetivo y a la cual se la asocia a scripts o programas para obtener más información.
+NataliaNatalia es un automatizador de procesos de recabación de información.
 
-3. Realizar un script para buscar información sobre esa tanga
-    3.1 Este script realiza las búsquedas que yo realizo habitualmente
+# Estructura del proyecto
 
-5. todos los datos que encuentre referido a una tanga se almacenan por la volatidad de internet
-6. Cada vez que se realiza una acción sobre un archivo se guarda un log de acciones.
+## 1.0  Tanga
 
-6. Cada tanga tiene su investigación.
+La tanga es el objetivo, el nombre de la entidad a investigar.
 
-7. Realizar esta interfaz gráfica.
+Estructura:
 
-8. Hacer categorías para buscar información por ejemplo por fases:
-    1- Reconocimiento
-    2- Dominios
-    3- Redes
-    4- Social
+- Nombre
+- Comentario
+
+### [x] 1.2 Tanga Fields (Campos de la tanga)
+
+Los campos de la tanga es la información de la tanga. Estos campos pueden ser email, teléfono, nicks, redes sociales. Cualquier dato que se tenga de la tanga para luego usar con los scapps (scripts/apps)
+
+Estos campos se definen así:
+
+- TANGA_ID
+- Nombre del campo
+- Valor del campo
+
+TODO
+
+Arreglar en la edición que muestre la tanga actual
+
+## 2.0 SCAPP (scripts / Apps)
+
+Son scripts o aplicaciones que serán ejecutadas: nmap, dig, y otros. Son programas de líneas de comandos (cli) que se usan para obtener información.
+
+Estructura:
+
+- Nombre del programa
+- Ubicación o Alias (ej: nmap o $HOME/scripts/gettwitter.py)
+- withSudo (si la ejecución es con SUDO)
+- Comentario (Estas son anotaciones útiles para el usuario)
+
+### 2.1 Paramétros de scapp
+
+SOn los parámetros y flags que tiene los programas para funcionar.
+
+Estructura:
+
+- SCAPP_ID *
+- orden
+- Identificador: Nombre del parámetro ej: "-sn" ó "-u"
+- Valor (?)
+- IsFlag: Si el parámetro es un flag entonces no tiene que tener un valor asociado.
+- Comentario
+- category_id
+
+
+* SCAPP_ID debería ser un array de IDS y en base al óden de esos parámetros es como se utilizan por los INEX.
+
+## 3.0 Instrucciones
+
+Es la asociación de los params de scap con los datos de una tanga.
+Estas instrucciones se ejecutan o mejor dicho sus resultados se muestran en el navegador o en una nueva consola.
+
+Estas instrucciones pueden copiarse para cambiar el valor del dato de la tanga o para hacerlas más complejas
+
+Una Instrucción tiene la lista de parámetros y una lista de campos de tanga Cada uno de estos está asociado por un índice, es decir que son dos arrays
+
+Estructura:
+
+- PARAM_ID
+- TANGA_FIELD_ID
+- EXECUTEIN: Donde se ejecuta (navegador u consola)
+
+### 3.1 Paquetes de Instrucciones.
+
+Los paquetes es instrucciones son varias instrucciones juntas.
+
+**COMING SOON**
