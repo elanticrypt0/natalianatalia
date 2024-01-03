@@ -12,7 +12,8 @@ func SetupAppRoutes(tapp *webcore.TangoApp) {
 	// categories
 	categoriesRoutes(tapp, rootPath)
 	tangasRoutes(tapp, rootPath)
-	tangas_fieldsRoutes(tapp, rootPath)
+	tanga_fieldsRoutes(tapp, rootPath)
 	scappsRoutes(tapp, rootPath)
 	scapp_paramsRoutes(tapp, rootPath)
+	directivesRoutes(tapp, rootPath)
 }

@@ -3,7 +3,6 @@ package features
 import (
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/k23dev/natalianatalia/app/models"
 	"github.com/k23dev/natalianatalia/app/views"
@@ -48,7 +47,8 @@ func FindAllTanga_fields(ctx echo.Context, tapp *webcore.TangoApp) error {
 func ShowFormTanga_field(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	t := models.NewTanga_field()
 
-	list, _ := t.FindAll(tapp.App.DB.Primary)
+	tM := models.NewTanga()
+	list, _ := tM.FindAll(tapp.App.DB.Primary)
 
 	if is_new {
 		return utils.Render(ctx, views.Tanga_fieldsFormCreate(tapp.GetTitleAndVersion(), &list))
@@ -67,7 +67,7 @@ func CreateTanga_field(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	t := models.NewTanga_field()
-	t.Create(tapp.App.DB.Primary, tDTO.Name)
+	t.Create(tapp.App.DB.Primary, tDTO)
 
 	return ctx.Redirect(http.StatusMovedPermanently, "/tanga_fields/")
 }
@@ -82,9 +82,7 @@ func UpdateTanga_field(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	t := models.NewTanga_field()
-	t.Name = strings.ToLower(tDTO.Name)
-
-	t.Update(tapp.App.DB.Primary, id, t.Name)
+	t.Update(tapp.App.DB.Primary, id, tDTO)
 
 	return ctx.Redirect(http.StatusMovedPermanently, "/tanga_fields/")
 }

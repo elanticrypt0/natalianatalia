@@ -30,13 +30,13 @@ templ Tanga_fieldsShowOne(appTitle string,t models.Tanga_field){
     }
 }
 
-templ Tanga_fieldsFormCreate(appTitle string,list *[]models.Tanga_field){
+templ Tanga_fieldsFormCreate(appTitle string,list *[]models.Tanga){
     @layouts.Default(appTitle){
         @forms.Tanga_field("/tanga_fields/create",*list)
     }
 }
 
-templ Tanga_fieldsFormUpdate(appTitle string,t *models.Tanga_field,list *[]models.Tanga_field){
+templ Tanga_fieldsFormUpdate(appTitle string,t *models.Tanga_field,list *[]models.Tanga){
     @layouts.Default(appTitle){
         @forms.Tanga_fieldUpdate("/tanga_fields/update/"+t.GetIDAsString(),*t,*list)
     }

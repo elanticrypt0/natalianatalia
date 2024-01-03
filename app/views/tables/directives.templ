@@ -5,16 +5,16 @@ import "github.com/k23dev/natalianatalia/app/models"
 import "github.com/k23dev/natalianatalia/app/views/menus"
 import "github.com/k23dev/natalianatalia/pkg/pagination"
 
-templ Tangas_fields(tangas_fields []models.Tangas_field,pagination pagination.Pagination){
+templ Directives(directives []models.Directive,pagination pagination.Pagination){
 
 <div class="">
     <div class="py-8">
         <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 class="text-2xl leading-tight">
-                Tangas_fields
+                Directives
             </h2>
             <div class="text-end">
-                @menus.Tangas_fields()
+                @menus.Directives()
             </div>
         </div>
             <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
@@ -24,12 +24,6 @@ templ Tangas_fields(tangas_fields []models.Tangas_field,pagination pagination.Pa
                             <tr>
                                 <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
                                     Nombre
-                                </th>
-                                <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
-                                    Valor
-                                </th>
-                                <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
-                                    Tanga 
                                 </th>
                                 <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
                                     Created at
@@ -42,26 +36,16 @@ templ Tangas_fields(tangas_fields []models.Tangas_field,pagination pagination.Pa
                             </tr>
                         </thead>
                         <tbody>
-                            for _,t:=range(tangas_fields){
+                            for _,d:=range(directives){
                             <tr>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {t.Name}
+                                        {d.Name}
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                        {t.FValue}
-                                    </p>
-                                </td>
-                                <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        {t.Tanga.Name}
-                                    </p>
-                                </td>
-                                <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        {t.CreatedAt.String()}
+                                        {d.CreatedAt.String()}
                                     </p>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -69,16 +53,16 @@ templ Tangas_fields(tangas_fields []models.Tangas_field,pagination pagination.Pa
                                         <span aria-hidden="true" class="absolute inset-0 bg-green-200 rounded-full opacity-50">
                                         </span>
                                         <span class="relative">
-                                            {t.DeletedAt.Time.String()}
+                                            {d.DeletedAt.Time.String()}
                                         </span>
                                     </span>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                    <a href={templ.URL("/tangas_fields/edit/"+t.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
+                                    <a href={templ.URL("/directives/edit/"+d.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
                                         Edit
                                     </a>
                                     |
-                                    <a href={templ.URL("/tangas_fields/delete/"+t.GetIDAsString())} class="text-red-600 hover:text-red-900">
+                                    <a href={templ.URL("/directives/delete/"+d.GetIDAsString())} class="text-red-600 hover:text-red-900">
                                         Delete
                                     </a>
                                 </td>
@@ -117,15 +101,15 @@ templ Tangas_fields(tangas_fields []models.Tangas_field,pagination pagination.Pa
 </div>
 }
 
-templ Tangas_fieldsEmpty(){
+templ DirectivesEmpty(){
 <div class="">
     <div class="py-8">
         <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 class="text-2xl leading-tight">
-                Tangas_fields
+                Directives
             </h2>
             <div class="text-end">
-                @menus.Tangas_fields()
+                @menus.Directives()
             </div>
         </div>
     	<div>

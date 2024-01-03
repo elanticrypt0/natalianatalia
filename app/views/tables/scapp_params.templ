@@ -26,6 +26,15 @@ templ Scapp_params(scapp_params []models.Scapp_param,pagination pagination.Pagin
                                     Nombre
                                 </th>
                                 <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                    ScApp
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                    is Flag?
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                    Comentario
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
                                     Created at
                                 </th>
                                 <th scope="col" class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
@@ -45,6 +54,21 @@ templ Scapp_params(scapp_params []models.Scapp_param,pagination pagination.Pagin
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                     <p class="text-gray-900 whitespace-no-wrap">
+                                        {s.Scapp.Name}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {s.Method}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {s.Comment}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                    <p class="text-gray-900 whitespace-no-wrap">
                                         {s.CreatedAt.String()}
                                     </p>
                                 </td>
@@ -58,6 +82,10 @@ templ Scapp_params(scapp_params []models.Scapp_param,pagination pagination.Pagin
                                     </span>
                                 </td>
                                 <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                    <a href={templ.URL("/scapp_params/clone/"+s.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
+                                        Clone
+                                    </a>
+                                    |
                                     <a href={templ.URL("/scapp_params/edit/"+s.GetIDAsString())} class="text-indigo-600 hover:text-indigo-900">
                                         Edit
                                     </a>

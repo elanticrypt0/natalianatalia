@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/k23dev/natalianatalia/pkg/tango_errors"
 	"gorm.io/gorm"
@@ -27,7 +28,8 @@ type Scapp_paramDTO struct {
 	Category   Category
 	Method     string `json:"method" param:"method" query:"method" form:"method"`
 	InputType  string `json:"input_type" param:"input_type" query:"input_type" form:"input_type"`
-	IsFlag     bool   `json:"is_flag" param:"input_type" query:"input_type" form:"input_type"`
+	IsFlag     string `json:"is_flag" param:"is_flag" query:"is_flag" form:"is_flag"`
+	IsFlagBool bool
 	Comment    string `json:"comment" param:"comment" query:"comment" form:"comment"`
 	Order      uint   `json:"order" param:"order" query:"order" form:"order"`
 }
@@ -75,7 +77,7 @@ func (s *Scapp_param) FindAll(db *gorm.DB) ([]Scapp_param, error) {
 func (s *Scapp_param) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) (*[]Scapp_param, error) {
 	scapp_params := []Scapp_param{}
 
-	db.Order("created_at ASC").Limit(itemsPerPage).Offset(itemsPerPage * currentPage).Find(&scapp_params)
+	db.Order("created_at ASC").Preload("Scapp").Limit(itemsPerPage).Offset(itemsPerPage * currentPage).Find(&scapp_params)
 	if len(scapp_params) <= 0 {
 		return nil, &tango_errors.ModelError{
 			ModelName: "Scapp_param",
@@ -87,12 +89,13 @@ func (s *Scapp_param) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage i
 }
 
 func (s *Scapp_param) Create(db *gorm.DB, dto Scapp_paramDTO) (*Scapp_param, error) {
+	s.SatinizeDTOCreate(&dto)
 	scapp_param := Scapp_param{
 		ScappID:    dto.ScappID,
 		CategoryID: dto.CategoryID,
 		Method:     dto.Method,
 		InputType:  dto.InputType,
-		IsFlag:     dto.IsFlag,
+		IsFlag:     dto.IsFlagBool,
 		Comment:    dto.Comment,
 		Order:      dto.Order,
 	}
@@ -102,7 +105,8 @@ func (s *Scapp_param) Create(db *gorm.DB, dto Scapp_paramDTO) (*Scapp_param, err
 }
 
 func (s *Scapp_param) Update(db *gorm.DB, id int, dto Scapp_paramDTO) (*Scapp_param, error) {
-	db.Model(&Scapp_param{}).Where("ID =?", id).Update("method", dto.Method).Update("category_id", dto.CategoryID).Update("scapp_id", dto.ScappID).Update("input_type", dto.InputType).Update("is_flag", dto.IsFlag).Update("comment", dto.Comment).Update("order", dto.Order)
+	s.SatinizeDTOUpdate(&dto)
+	db.Model(&Scapp_param{}).Where("ID =?", id).Update("method", dto.Method).Update("category_id", dto.CategoryID).Update("scapp_id", dto.ScappID).Update("input_type", dto.InputType).Update("is_flag", dto.IsFlagBool).Update("comment", dto.Comment).Update("order", dto.Order)
 	return s, nil
 }
 
@@ -117,4 +121,16 @@ func (s *Scapp_param) Delete(db *gorm.DB, id int) (*Scapp_param, error) {
 
 func (s *Scapp_param) GetIDAsString() string {
 	return fmt.Sprintf("%d", s.ID)
+}
+
+func (s *Scapp_param) SatinizeDTOCreate(dto *Scapp_paramDTO) error {
+	flagb, _ := strconv.ParseBool(dto.IsFlag)
+	dto.IsFlagBool = flagb
+	return nil
+}
+
+func (s *Scapp_param) SatinizeDTOUpdate(dto *Scapp_paramDTO) error {
+	flagb, _ := strconv.ParseBool(dto.IsFlag)
+	dto.IsFlagBool = flagb
+	return nil
 }

@@ -1,0 +1,50 @@
+
+package views
+
+import (
+    "github.com/k23dev/natalianatalia/app/views/layouts"
+    "github.com/k23dev/natalianatalia/app/models"
+	"github.com/k23dev/natalianatalia/app/views/tables"
+	"github.com/k23dev/natalianatalia/app/views/forms"
+    "github.com/k23dev/natalianatalia/pkg/pagination"
+)
+
+templ DirectivesShowList(appTitle string,directives []models.Directive,pagination pagination.Pagination){
+    @layouts.Default(appTitle){
+        @tables.Directives(directives,pagination)
+    }
+
+}
+
+templ DirectivesShowListEmpty(appTitle string){
+    @layouts.Default(appTitle){
+        @tables.DirectivesEmpty()
+    }
+
+}
+
+templ DirectivesShowOne(appTitle string,d models.Directive){
+    @layouts.Default(appTitle){
+        <h1>Directive</h1>
+        <h2>{d.Name}</h2>
+    }
+}
+
+templ DirectivesFormCreate(appTitle string,list *[]models.Directive){
+    @layouts.Default(appTitle){
+        @forms.Directive("/directives/create",*list)
+    }
+}
+
+templ DirectivesFormUpdate(appTitle string,d *models.Directive,list *[]models.Directive){
+    @layouts.Default(appTitle){
+        @forms.DirectiveUpdate("/directives/update/"+d.GetIDAsString(),*d,*list)
+    }
+}
+
+templ DirectivesDelete(appTitle string,d *models.Directive){
+    @layouts.Default(appTitle){
+        <h1>Borrar directive</h1>
+    }
+}
+	
